@@ -8,19 +8,73 @@
 import SwiftUI
 
 struct ChecklistScreen: View {
+    @State private var equipmentItems = [
+        "Mask", "Gas Tank", "Gloves", "Wetsuit", "Fins"
+    ]
+    
+    @State private var additionalEquipment = [String]()
+    @State private var safetyItems = ["First Aid Kit", "Emergency Oxygen", "Whistle"]
+    @State private var documentationItems = ["Diving License", "Logbook"]
+    @State private var personalItems = ["Sunscreen", "Water Bottle"]
+    
     var body: some View {
-        VStack {
-            HeaderView()
-                .padding(.top, 50) // Adjust padding as needed
+        List {
+            Text("Checklist")
+                .font(.title)
+                .padding()
             
-            // Add checklist content here
+            SectionView(title: "Equipment", items: $equipmentItems)
+            SectionView(title: "Additional Equipment", items: $additionalEquipment)
+            SectionView(title: "Safety", items: $safetyItems)
+            SectionView(title: "Documentation", items: $documentationItems)
+            SectionView(title: "Personal", items: $personalItems)
             
-            Spacer()
         }
-        .background(
-            BackgroundImageView() // Set background image
-        )
-        .edgesIgnoringSafeArea(.all)
+    }
+}
+
+struct SectionView: View {
+    var title: String
+    @Binding var items: [String]
+    
+    var body: some View {
+        Section(header: Text(title)) {
+            ForEach(items, id: \.self) { item in
+                ChecklistItemView(title: item)
+            }
+            
+            Button(action: {
+                addItem()
+            }) {
+                HStack {
+                    Image(systemName: "plus.circle")
+                    Text("Add Item")
+                }
+            }
+        }
+    }
+    
+    func addItem() {
+        
+    }
+}
+
+struct ChecklistItemView: View {
+    var title: String
+    @State private var isChecked = false
+    
+    var body: some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Image(systemName: isChecked ? "checkmark.square.fill" : "square")
+                .foregroundColor(isChecked ? .green : .black)
+                .onTapGesture {
+                    isChecked.toggle()
+                }
+        }
+        .padding(.vertical, 4)
+        
     }
 }
 
@@ -29,4 +83,5 @@ struct ChecklistScreen_Previews: PreviewProvider {
         ChecklistScreen()
     }
 }
+
 

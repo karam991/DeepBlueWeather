@@ -8,40 +8,56 @@
 import SwiftUI
 
 struct HomeScreen: View {
+    
+    @Binding var selectedDivePlan: DivePlan?
+
+    @State private var selectedTab = 0
+    @State private var showingDivePlannerSheet = false
+    @State private var showingChecklistSheet = false
+    
     var body: some View {
-        TabView {
-            DivePlannerScreen()
+        TabView(selection: $selectedTab) {
+            WeatherInfoView()
                 .tabItem {
-                    Label("Dive Planner", systemImage: "square.and.pencil")
+                    Label ("Weather", systemImage: "sun.haze.circle.fill")
                 }
-            ChecklistScreen()
-                .tabItem {
-                    Label("Checklist", systemImage: "list.bullet")
-                }
-            SettingsScreen()
-                .tabItem {
-                    Label("Settings", systemImage: "gearshape")
-                }
+                .tag(0)
+            
+            NavigationView {
+                DivePlannerScreen()
+            }
+            .tabItem {
+                Label("Dive Planner", systemImage: "square.and.pencil")
+            }
+            .tag(1)
+            
+            NavigationView {
+                ChecklistScreen()
+            }
+            .tabItem {
+                Label("Checklist", systemImage: "list.bullet")
+            }
+            .tag(2)
+            
+            NavigationView {
+                SettingsScreen()
+            }
+            .tabItem {
+                Label("Settings", systemImage: "gearshape")
+            }
+            .tag(3)
         }
-        .accentColor(.yellow) // Optional: Set the accent color of the tab items
-        .edgesIgnoringSafeArea(.all) // Optional: Ignore safe area edges for full-screen content
-        .background(
-            BackgroundImageView()
-                .edgesIgnoringSafeArea(.all) // Ensure background image fills the entire screen
-        )
-        .overlay(
-            WeatherInfoView() // Add WeatherInfoView on top of the content
-                .padding(.top, 16) // Adjust top padding as needed
-                .frame(maxWidth: .infinity, alignment: .top) // Ensure WeatherInfoView spans the entire width
-        )
+        .accentColor(.yellow)
+        .edgesIgnoringSafeArea(.all)
+    
+        
+        
         
     }
 }
 
 struct HomeScreen_Previews: PreviewProvider {
     static var previews: some View {
-        HomeScreen()
+        HomeScreen(selectedDivePlan: .constant(DivePlan(userId: "ajgisguewfjaka", location: "Abhu Dahbi", date: "22.09.2025", depth: 20, duration: 45, deepDive: true, nightDive: false)))
     }
 }
-
-

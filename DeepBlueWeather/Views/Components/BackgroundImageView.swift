@@ -9,11 +9,12 @@ import SwiftUI
 
 struct BackgroundImageView: View {
     var body: some View {
-        Image("DiverBackground") // Placeholder for background image
+        Image("DiverBackground") // 
             .resizable()
             .scaledToFill()
+            .blur(radius: /*@START_MENU_TOKEN@*/3.0/*@END_MENU_TOKEN@*/)
             .edgesIgnoringSafeArea(.all)
-            .opacity(0.5) // Placeholder opacity
+            .opacity(0.5)
     }
 }
 

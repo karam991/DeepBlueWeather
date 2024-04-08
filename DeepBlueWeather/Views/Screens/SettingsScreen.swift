@@ -8,25 +8,44 @@
 import SwiftUI
 
 struct SettingsScreen: View {
+    @EnvironmentObject private var loginViewModel : LoginViewModel
+    @State private var notificationsEnabled = true
+    @State private var darkModeEnabled = false
+    
     var body: some View {
-        VStack {
-            HeaderView()
-                .padding(.top, 50) // Adjust padding as needed
+        VStack(spacing: 20) {
+            Text("Settings")
+                .font(.title)
             
-            // Add settings content here
+            Toggle("Enable Notifications", isOn: $notificationsEnabled)
+            
+            Toggle("Dark Mode", isOn: $darkModeEnabled)
+            
+            Button(action: {
+                loginViewModel.logout()
+
+            }) {
+                Text("Sign Out")
+                    .foregroundColor(.red)
+            }
             
             Spacer()
         }
+        .padding()
         .background(
-            BackgroundImageView() // Set background image
+            BackgroundImageView()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
         )
-        .edgesIgnoringSafeArea(.all)
+        .navigationBarTitle("Settings")
     }
 }
 
 struct SettingsScreen_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsScreen()
+        NavigationView {
+            SettingsScreen()
+        }
     }
 }
 

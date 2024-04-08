@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6312B1DF2BC1BFCA00596CB0 /* LoginRegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6312B1DE2BC1BFCA00596CB0 /* LoginRegisterView.swift */; };
+		6312B1E22BC1C66D00596CB0 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6312B1E12BC1C66D00596CB0 /* FirebaseAuth */; };
+		6312B1E62BC1C91100596CB0 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6312B1E52BC1C91100596CB0 /* LoginViewModel.swift */; };
+		6312B1E82BC1D05E00596CB0 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6312B1E72BC1D05E00596CB0 /* SettingsViewModel.swift */; };
+		6312B1EA2BC31BDD00596CB0 /* ChecklistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6312B1E92BC31BDD00596CB0 /* ChecklistViewModel.swift */; };
 		633FBDFC2B8CBB3A00289E86 /* DeepBlueWeatherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBDFB2B8CBB3A00289E86 /* DeepBlueWeatherApp.swift */; };
 		633FBE002B8CBB3D00289E86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 633FBDFF2B8CBB3D00289E86 /* Assets.xcassets */; };
 		633FBE032B8CBB3D00289E86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 633FBE022B8CBB3D00289E86 /* Preview Assets.xcassets */; };
@@ -21,6 +26,15 @@
 		633FBE382B8CC76A00289E86 /* DivePlannerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE372B8CC76A00289E86 /* DivePlannerScreen.swift */; };
 		633FBE3A2B8CC78C00289E86 /* ChecklistScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE392B8CC78C00289E86 /* ChecklistScreen.swift */; };
 		633FBE3C2B8CCAE000289E86 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE3B2B8CCAE000289E86 /* SettingsScreen.swift */; };
+		6358BD932BAB16C200F5A39B /* DivePlannerSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6358BD922BAB16C200F5A39B /* DivePlannerSheetView.swift */; };
+		6358BD952BAB16EC00F5A39B /* ChecklistSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6358BD942BAB16EC00F5A39B /* ChecklistSheetView.swift */; };
+		6358BD992BB5A2B900F5A39B /* DivePlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6358BD982BB5A2B900F5A39B /* DivePlannerViewModel.swift */; };
+		6358BD9D2BB5A60400F5A39B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6358BD9C2BB5A60400F5A39B /* GoogleService-Info.plist */; };
+		6358BDA02BC1BD1D00F5A39B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6358BD9F2BC1BD1D00F5A39B /* FirebaseAnalytics */; };
+		6358BDA22BC1BD1D00F5A39B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 6358BDA12BC1BD1D00F5A39B /* FirebaseAnalyticsOnDeviceConversion */; };
+		6358BDA42BC1BD1D00F5A39B /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6358BDA32BC1BD1D00F5A39B /* FirebaseAnalyticsSwift */; };
+		6358BDA62BC1BD1D00F5A39B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 6358BDA52BC1BD1D00F5A39B /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		6358BDA82BC1BD1D00F5A39B /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 6358BDA72BC1BD1D00F5A39B /* FirebaseAppCheck */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +55,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6312B1DE2BC1BFCA00596CB0 /* LoginRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterView.swift; sourceTree = "<group>"; };
+		6312B1E52BC1C91100596CB0 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		6312B1E72BC1D05E00596CB0 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		6312B1E92BC31BDD00596CB0 /* ChecklistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistViewModel.swift; sourceTree = "<group>"; };
 		633FBDF82B8CBB3A00289E86 /* DeepBlueWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeepBlueWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		633FBDFB2B8CBB3A00289E86 /* DeepBlueWeatherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepBlueWeatherApp.swift; sourceTree = "<group>"; };
 		633FBDFF2B8CBB3D00289E86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -58,6 +76,10 @@
 		633FBE372B8CC76A00289E86 /* DivePlannerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivePlannerScreen.swift; sourceTree = "<group>"; };
 		633FBE392B8CC78C00289E86 /* ChecklistScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistScreen.swift; sourceTree = "<group>"; };
 		633FBE3B2B8CCAE000289E86 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		6358BD922BAB16C200F5A39B /* DivePlannerSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivePlannerSheetView.swift; sourceTree = "<group>"; };
+		6358BD942BAB16EC00F5A39B /* ChecklistSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistSheetView.swift; sourceTree = "<group>"; };
+		6358BD982BB5A2B900F5A39B /* DivePlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivePlannerViewModel.swift; sourceTree = "<group>"; };
+		6358BD9C2BB5A60400F5A39B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +87,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6358BDA42BC1BD1D00F5A39B /* FirebaseAnalyticsSwift in Frameworks */,
+				6312B1E22BC1C66D00596CB0 /* FirebaseAuth in Frameworks */,
+				6358BDA02BC1BD1D00F5A39B /* FirebaseAnalytics in Frameworks */,
+				6358BDA22BC1BD1D00F5A39B /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				6358BDA82BC1BD1D00F5A39B /* FirebaseAppCheck in Frameworks */,
+				6358BDA62BC1BD1D00F5A39B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +113,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6312B1E02BC1C66D00596CB0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		633FBDEF2B8CBB3A00289E86 = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +127,7 @@
 				633FBE0B2B8CBB3E00289E86 /* DeepBlueWeatherTests */,
 				633FBE152B8CBB3E00289E86 /* DeepBlueWeatherUITests */,
 				633FBDF92B8CBB3A00289E86 /* Products */,
+				6312B1E02BC1C66D00596CB0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -108,6 +144,7 @@
 		633FBDFA2B8CBB3A00289E86 /* DeepBlueWeather */ = {
 			isa = PBXGroup;
 			children = (
+				6358BD9C2BB5A60400F5A39B /* GoogleService-Info.plist */,
 				633FBDFB2B8CBB3A00289E86 /* DeepBlueWeatherApp.swift */,
 				633FBE2B2B8CBC1900289E86 /* API */,
 				633FBE2A2B8CBC0D00289E86 /* Models */,
@@ -161,6 +198,7 @@
 				633FBE372B8CC76A00289E86 /* DivePlannerScreen.swift */,
 				633FBE392B8CC78C00289E86 /* ChecklistScreen.swift */,
 				633FBE3B2B8CCAE000289E86 /* SettingsScreen.swift */,
+				6312B1DE2BC1BFCA00596CB0 /* LoginRegisterView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -172,6 +210,8 @@
 				633FBE2F2B8CC2B100289E86 /* WeatherInfoView.swift */,
 				633FBE312B8CC2C300289E86 /* NavigationOptionsView.swift */,
 				633FBE332B8CC2DB00289E86 /* BackgroundImageView.swift */,
+				6358BD922BAB16C200F5A39B /* DivePlannerSheetView.swift */,
+				6358BD942BAB16EC00F5A39B /* ChecklistSheetView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -186,6 +226,10 @@
 		633FBE292B8CBBF300289E86 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				6358BD982BB5A2B900F5A39B /* DivePlannerViewModel.swift */,
+				6312B1E52BC1C91100596CB0 /* LoginViewModel.swift */,
+				6312B1E72BC1D05E00596CB0 /* SettingsViewModel.swift */,
+				6312B1E92BC31BDD00596CB0 /* ChecklistViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -220,6 +264,14 @@
 			dependencies = (
 			);
 			name = DeepBlueWeather;
+			packageProductDependencies = (
+				6358BD9F2BC1BD1D00F5A39B /* FirebaseAnalytics */,
+				6358BDA12BC1BD1D00F5A39B /* FirebaseAnalyticsOnDeviceConversion */,
+				6358BDA32BC1BD1D00F5A39B /* FirebaseAnalyticsSwift */,
+				6358BDA52BC1BD1D00F5A39B /* FirebaseAnalyticsWithoutAdIdSupport */,
+				6358BDA72BC1BD1D00F5A39B /* FirebaseAppCheck */,
+				6312B1E12BC1C66D00596CB0 /* FirebaseAuth */,
+			);
 			productName = DeepBlueWeather;
 			productReference = 633FBDF82B8CBB3A00289E86 /* DeepBlueWeather.app */;
 			productType = "com.apple.product-type.application";
@@ -292,6 +344,9 @@
 				Base,
 			);
 			mainGroup = 633FBDEF2B8CBB3A00289E86;
+			packageReferences = (
+				6358BD9E2BB5A69D00F5A39B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 633FBDF92B8CBB3A00289E86 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -310,6 +365,7 @@
 			files = (
 				633FBE032B8CBB3D00289E86 /* Preview Assets.xcassets in Resources */,
 				633FBE002B8CBB3D00289E86 /* Assets.xcassets in Resources */,
+				6358BD9D2BB5A60400F5A39B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,6 +393,13 @@
 				633FBE382B8CC76A00289E86 /* DivePlannerScreen.swift in Sources */,
 				633FBE3C2B8CCAE000289E86 /* SettingsScreen.swift in Sources */,
 				633FBE342B8CC2DB00289E86 /* BackgroundImageView.swift in Sources */,
+				6358BD992BB5A2B900F5A39B /* DivePlannerViewModel.swift in Sources */,
+				6358BD952BAB16EC00F5A39B /* ChecklistSheetView.swift in Sources */,
+				6312B1E82BC1D05E00596CB0 /* SettingsViewModel.swift in Sources */,
+				6358BD932BAB16C200F5A39B /* DivePlannerSheetView.swift in Sources */,
+				6312B1E62BC1C91100596CB0 /* LoginViewModel.swift in Sources */,
+				6312B1DF2BC1BFCA00596CB0 /* LoginRegisterView.swift in Sources */,
+				6312B1EA2BC31BDD00596CB0 /* ChecklistViewModel.swift in Sources */,
 				633FBE3A2B8CC78C00289E86 /* ChecklistScreen.swift in Sources */,
 				633FBDFC2B8CBB3A00289E86 /* DeepBlueWeatherApp.swift in Sources */,
 				633FBE322B8CC2C300289E86 /* NavigationOptionsView.swift in Sources */,
@@ -666,6 +729,50 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6358BD9E2BB5A69D00F5A39B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.23.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6312B1E12BC1C66D00596CB0 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6358BD9E2BB5A69D00F5A39B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		6358BD9F2BC1BD1D00F5A39B /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6358BD9E2BB5A69D00F5A39B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		6358BDA12BC1BD1D00F5A39B /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6358BD9E2BB5A69D00F5A39B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		6358BDA32BC1BD1D00F5A39B /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6358BD9E2BB5A69D00F5A39B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
+		};
+		6358BDA52BC1BD1D00F5A39B /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6358BD9E2BB5A69D00F5A39B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		6358BDA72BC1BD1D00F5A39B /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6358BD9E2BB5A69D00F5A39B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 633FBDF02B8CBB3A00289E86 /* Project object */;
 }
