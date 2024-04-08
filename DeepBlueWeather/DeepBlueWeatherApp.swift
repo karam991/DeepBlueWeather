@@ -6,12 +6,27 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct DeepBlueWeatherApp: App {
+    
+    @StateObject var loginViewModel = LoginViewModel()
+    
+    init() {
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
+        FirebaseApp.configure()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            HomeScreen()
+            if loginViewModel.userIsLoggedIn {
+                HomeScreen(selectedDivePlan: .constant(DivePlan(userId: "jgrfwsgdejfgjsgfjs", location: "Abhu Dahbi", date: "22.09.2025", depth: 20, duration: 45, deepDive: true, nightDive: false)))
+                    .environmentObject(loginViewModel)
+            } else {
+                LoginRegisterView()
+                    .environmentObject(loginViewModel)
+            }
         }
     }
 }
