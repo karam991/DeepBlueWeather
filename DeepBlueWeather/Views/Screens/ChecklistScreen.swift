@@ -1,80 +1,78 @@
 //
-//  ChecklistScreen.swift
+//  ChecklistSheetView.swift
 //  DeepBlueWeather
 //
-//  Created by Abdulkarim Alnaser on 26.02.24.
+//  Created by Abdulkarim Alnaser on 20.03.24.
 //
 
 import SwiftUI
 
 struct ChecklistScreen: View {
-    @State private var equipmentItems = [
-        "Mask", "Gas Tank", "Gloves", "Wetsuit", "Fins"
-    ]
-    
-    @State private var additionalEquipment = [String]()
-    @State private var safetyItems = ["First Aid Kit", "Emergency Oxygen", "Whistle"]
-    @State private var documentationItems = ["Diving License", "Logbook"]
-    @State private var personalItems = ["Sunscreen", "Water Bottle"]
+    @StateObject var viewModel = ChecklistViewModel()
     
     var body: some View {
         List {
-            Text("Checklist")
-                .font(.title)
-                .padding()
+            SectionView(title: "Equipment",viewModel: viewModel, items: $viewModel.equipmentItems, category: .equipment)
             
-            SectionView(title: "Equipment", items: $equipmentItems)
-            SectionView(title: "Additional Equipment", items: $additionalEquipment)
-            SectionView(title: "Safety", items: $safetyItems)
-            SectionView(title: "Documentation", items: $documentationItems)
-            SectionView(title: "Personal", items: $personalItems)
             
+            SectionView(title: "Additional Equipment",viewModel: viewModel, items: $viewModel.additionalEquipmentItems,category: .additionalEquipment)
+            
+            
+            SectionView(title: "Safety",viewModel: viewModel, items: $viewModel.safetyItems,category: .safety)
+            
+            
+            SectionView(title: "Documentation",viewModel: viewModel, items: $viewModel.documentationItems,category: .documentation)
+            
+            
+            SectionView(title: "Personal",viewModel: viewModel, items: $viewModel.personalItems,category: .personal)
         }
+        .listStyle(GroupedListStyle())
+        .navigationTitle("Checklist")
+        .navigationBarItems(trailing:
+                                Button(action: {
+            viewModel.resetAllItems()
+        }) {
+            Image(systemName: "arrow.uturn.backward.circle")
+        }
+        )
     }
 }
 
 struct SectionView: View {
     var title: String
-    @Binding var items: [String]
-    
+    @ObservedObject var viewModel : ChecklistViewModel
+    @Binding var items: [ChecklistItem]
+    let category : ChecklistSection
     var body: some View {
         Section(header: Text(title)) {
-            ForEach(items, id: \.self) { item in
-                ChecklistItemView(title: item)
+            ForEach(items.indices, id: \.self) { index in
+                ChecklistItemView(item: $items[index])
             }
             
             Button(action: {
-                addItem()
+                viewModel.addItem(to: category, title: "New Item")
             }) {
-                HStack {
-                    Image(systemName: "plus.circle")
-                    Text("Add Item")
-                }
+                Label("Add New Item", systemImage: "plus")
             }
         }
-    }
-    
-    func addItem() {
-        
     }
 }
 
 struct ChecklistItemView: View {
-    var title: String
-    @State private var isChecked = false
+    @Binding var item: ChecklistItem
+    
     
     var body: some View {
         HStack {
-            Text(title)
+            Text(item.title)
             Spacer()
-            Image(systemName: isChecked ? "checkmark.square.fill" : "square")
-                .foregroundColor(isChecked ? .green : .black)
+            Image(systemName: item.isChecked ? "checkmark.square.fill" : "square")
+                .foregroundColor(item.isChecked ? .green : .black)
                 .onTapGesture {
-                    isChecked.toggle()
+                    item.isChecked.toggle()
                 }
         }
         .padding(.vertical, 4)
-        
     }
 }
 
@@ -83,5 +81,4 @@ struct ChecklistScreen_Previews: PreviewProvider {
         ChecklistScreen()
     }
 }
-
 

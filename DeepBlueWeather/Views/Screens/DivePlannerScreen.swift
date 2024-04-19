@@ -7,36 +7,36 @@
 
 import SwiftUI
 
-struct DivePlan: Identifiable {
-    var id = UUID()
-    var userId : String
-    var location: String
-    var date: String
-    var depth: Int
-    var duration: Int
-    var deepDive: Bool
-    var nightDive: Bool
-}
+
 
 
 struct DivePlannerScreen: View {
-    @StateObject var viewModel = DivePlannerViewModel()
-    
+    @StateObject var weatherViewModel = WeatherViewModel()
+    @StateObject var viewModel = DivePlannerViewModel(weatherViewModel: WeatherViewModel()) 
     var body: some View {
         NavigationView {
             VStack {
                 Text("Created Dive Plans")
                 
-                List(viewModel.divePlans) { plan in
-                    VStack(alignment: .leading) {
-                        Text("Location: \(plan.location)")
-                        Text("Date: \(plan.date)")
-                        Text("Depth: \(plan.depth) meters")
-                        Text("Duration: \(plan.duration) minutes")
-                        Text("Deep Dive: \(plan.deepDive ? "Yes" : "No")")
-                        Text("Night Dive: \(plan.nightDive ? "Yes" : "No")")
-                    }
+                List {
+                    ForEach(viewModel.divePlans){ plan in
+                        VStack(alignment: .leading) {
+                            Text("Location: \(plan.location)")
+                            Text("Date: \(plan.date)")
+                            Text("Depth: \(plan.depth) meters")
+                            Text("Duration: \(plan.duration) minutes")
+                            Text("Deep Dive: \(plan.deepDive ? "Yes" : "No")")
+                            Text("Night Dive: \(plan.nightDive ? "Yes" : "No")")
+                        }
+                    }.onDelete(perform: { indexSet in
+                        viewModel.deleteDivePlan(at: indexSet.first!)
+                    })
                 }
+                
+                .onAppear(perform: {
+                    viewModel.readDivePlans()
+                    
+                })
                 
                 NavigationLink(destination: DivePlannerSheetView(divePlannerViewModel: self.viewModel)) {
                     Image(systemName: "plus")
@@ -47,25 +47,21 @@ struct DivePlannerScreen: View {
                         .padding()
                 }
                 
+                
             }
+            .padding()
+            .navigationBarTitle("Dive Planner")
         }
-        .padding()
-        .navigationBarTitle("Dive Planner")
+        .environmentObject(viewModel.weatherViewModel) 
+
     }
 }
 
-
-struct DivePlannerScreen_Previews: PreviewProvider {
+/*struct DivePlannerScreen_Previews: PreviewProvider {
     static var previews: some View {
         DivePlannerScreen()
+            .environmentObject(DivePlannerViewModel(weatherViewModel: WeatherViewModel()))
     }
-}
+}*/
 
 
-/*            Button(action: {
- // Placeholder action for adding new dive plan
- let newPlan = DivePlan(location: "New Location", date: "New Date", depth: 0, duration: 0, deepDive: false, nightDive: false)
- divePlans.append(newPlan)
- }) {
- Image(systemName: "plus")
- */
