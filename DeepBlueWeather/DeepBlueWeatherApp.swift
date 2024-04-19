@@ -23,6 +23,7 @@ struct DeepBlueWeatherApp: App {
             if loginViewModel.userIsLoggedIn {
                 HomeScreen(selectedDivePlan: .constant(DivePlan(userId: "jgrfwsgdejfgjsgfjs", location: "Abhu Dahbi", date: "22.09.2025", depth: 20, duration: 45, deepDive: true, nightDive: false)))
                     .environmentObject(loginViewModel)
+                    .environmentObject(DivePlannerViewModel(weatherViewModel: WeatherViewModel())) 
             } else {
                 LoginRegisterView()
                     .environmentObject(loginViewModel)

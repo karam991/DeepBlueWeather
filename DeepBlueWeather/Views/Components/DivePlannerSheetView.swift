@@ -123,7 +123,7 @@ struct DivePlannerSheetView: View {
     }
 }
 
-#Preview {
+/*#Preview {
     DivePlannerSheetView(divePlannerViewModel: .init())
-}
+}*/
 

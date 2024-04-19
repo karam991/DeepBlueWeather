@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeScreen: View {
     
     @Binding var selectedDivePlan: DivePlan?
+    
 
     @State private var selectedTab = 0
     @State private var showingDivePlannerSheet = false
