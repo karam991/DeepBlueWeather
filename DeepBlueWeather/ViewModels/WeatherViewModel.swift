@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 class WeatherViewModel: ObservableObject {
-    private let baseURL = "https://api.stormglass.io/v2/weather/point"
+    private let baseURL = "https://stormglass.p.rapidapi.com/forecast"
     private let apiKey = APIConfig.stormGlassAPIKey
 
     @Published var weatherData: WeatherData?
@@ -29,7 +29,7 @@ class WeatherViewModel: ObservableObject {
         }
 
         var request = URLRequest(url: url)
-        request.setValue(apiKey, forHTTPHeaderField: "Authorization")
+        request.setValue(apiKey, forHTTPHeaderField: "X-RapidAPI-Key")
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
@@ -78,6 +78,7 @@ class WeatherViewModel: ObservableObject {
             }
 
             Task {
+                print (coordinate)
                 await self.fetchWeatherDataByCoordinates(latitude: coordinate.latitude, longitude: coordinate.longitude)
             }
         }
