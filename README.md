@@ -49,7 +49,10 @@ The app follows MVVM (Model-View-ViewModel) pattern:
 
 ## Screenshots
 
-*Coming soon*
+
+| Login | Weather | Dive Planner | Checklist |
+|-------|---------|--------------|-----------|
+| ![Login](screenshots/login.png) | ![Weather](screenshots/weather.png) | ![Dive Planner](screenshots/diveplanner.png) | ![Checklist](screenshots/checklist.png) |
 
 ## Author
 
