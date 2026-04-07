@@ -9,11 +9,11 @@ import Foundation
 import FirebaseFirestoreSwift
 
 
-struct DivePlan: Codable, Identifiable {
-    @DocumentID var id : String?
-    var userId : String
+struct DivePlan: Codable, Identifiable, Equatable {
+    @DocumentID var id: String?
+    var userId: String
     var location: String
-    var date: String
+    var date: String  
     var depth: Int
     var duration: Int
     var deepDive: Bool

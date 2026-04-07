@@ -2,85 +2,101 @@
 //  WeatherViewModel.swift
 //  DeepBlueWeather
 //
-//  Created by Abdulkarim Alnaser on 16.04.24.
-//
-
 
 import Foundation
 import MapKit
 
+@MainActor
 class WeatherViewModel: ObservableObject {
-    private let baseURL = "https://stormglass.p.rapidapi.com/forecast"
-    private let apiKey = APIConfig.stormGlassAPIKey
-
     @Published var weatherData: WeatherData?
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
+    @Published var currentLocation: String = ""
 
-    func fetchWeatherDataByCoordinates(latitude: Double, longitude: Double) async {
+    private let marineBaseURL = "https://marine-api.open-meteo.com/v1/marine"
+    private let forecastBaseURL = "https://api.open-meteo.com/v1/forecast"
+
+    func fetchWeatherDataByLocation(location: String) async {
         isLoading = true
-        let urlString = "\(baseURL)?lat=\(latitude)&lng=\(longitude)"
-        guard let url = URL(string: urlString) else {
-            DispatchQueue.main.async {
-                self.errorMessage = "Invalid URL"
-                self.isLoading = false
-            }
-            return
-        }
+        errorMessage = nil
+        currentLocation = location
 
-        var request = URLRequest(url: url)
-        request.setValue(apiKey, forHTTPHeaderField: "X-RapidAPI-Key")
-
+        let geocoder = CLGeocoder()
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Failed to fetch weather data: Server error"
-                    self.isLoading = false
-                }
+            let placemarks = try await geocoder.geocodeAddressString(location)
+            guard let coordinate = placemarks.first?.location?.coordinate else {
+                errorMessage = "Location not found"
+                isLoading = false
                 return
             }
-
-            let decodedData = try JSONDecoder().decode(WeatherData.self, from: data)
-            DispatchQueue.main.async {
-                self.weatherData = decodedData
-                self.isLoading = false
-                self.errorMessage = nil
-            }
+            await fetchWeatherDataByCoordinates(
+                latitude: coordinate.latitude,
+                longitude: coordinate.longitude
+            )
         } catch {
-            DispatchQueue.main.async {
-                self.errorMessage = "Failed to fetch weather data: \(error.localizedDescription)"
-                self.isLoading = false
-            }
+            errorMessage = "Could not find location: \(error.localizedDescription)"
+            isLoading = false
         }
     }
 
-    // Fetch weather data by location name using MapKit's geocoding
-    func fetchWeatherDataByLocation(location: String) async {
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(location) { [weak self] (placemarks, error) in
-            guard let self = self else { return }
+    func fetchWeatherDataByCoordinates(latitude: Double, longitude: Double) async {
+        isLoading = true
 
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.errorMessage = "Geocoding error: \(error.localizedDescription)"
-                    self.isLoading = false
-                }
-                return
-            }
+        async let forecastResult = fetchForecast(lat: latitude, lng: longitude)
+        async let marineResult = fetchMarine(lat: latitude, lng: longitude)
 
-            guard let coordinate = placemarks?.first?.location?.coordinate else {
-                DispatchQueue.main.async {
-                    self.errorMessage = "No coordinates found for location"
-                    self.isLoading = false
-                }
-                return
-            }
+        let forecast = await forecastResult
+        let marine = await marineResult
 
-            Task {
-                print (coordinate)
-                await self.fetchWeatherDataByCoordinates(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            }
+        guard let forecast = forecast else {
+            errorMessage = "Failed to fetch weather data"
+            isLoading = false
+            return
+        }
+
+        let hours: [HourlyWeather] = forecast.hourly.time.indices.map { i in
+            HourlyWeather(
+                time: forecast.hourly.time[i],
+                airTemperature: forecast.hourly.temperature2m[i],
+                windSpeed: forecast.hourly.windSpeed10m[i],
+                humidity: forecast.hourly.relativeHumidity2m[i],
+                pressure: forecast.hourly.pressureMsl[i],
+                visibility: forecast.hourly.visibility[i],
+                waveHeight: marine?.hourly.waveHeight[i] ?? nil,
+                waterTemperature: marine?.hourly.seaSurfaceTemperature[i] ?? nil
+            )
+        }
+
+        weatherData = WeatherData(hours: hours)
+        isLoading = false
+        errorMessage = nil
+    }
+
+    // MARK: - Private fetch helpers
+
+    private func fetchForecast(lat: Double, lng: Double) async -> ForecastResponse? {
+        let urlString = "\(forecastBaseURL)?latitude=\(lat)&longitude=\(lng)&hourly=temperature_2m,wind_speed_10m,relative_humidity_2m,pressure_msl,visibility"
+        guard let url = URL(string: urlString) else { return nil }
+
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            return try JSONDecoder().decode(ForecastResponse.self, from: data)
+        } catch {
+            print("Forecast fetch error: \(error)")
+            return nil
+        }
+    }
+
+    private func fetchMarine(lat: Double, lng: Double) async -> MarineResponse? {
+        let urlString = "\(marineBaseURL)?latitude=\(lat)&longitude=\(lng)&hourly=wave_height,sea_surface_temperature"
+        guard let url = URL(string: urlString) else { return nil }
+
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            return try JSONDecoder().decode(MarineResponse.self, from: data)
+        } catch {
+            print("Marine fetch error: \(error)")
+            return nil
         }
     }
 }

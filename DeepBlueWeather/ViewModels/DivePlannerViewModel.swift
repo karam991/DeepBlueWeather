@@ -11,9 +11,11 @@ import FirebaseAuth
 import MapKit
 
 class DivePlannerViewModel: ObservableObject {
+    @Published var showingDivePlannerSheet = false
+
     @Published var divePlans: [DivePlan] = []
     @Published var selectedDivePlan: DivePlan?
-    @Published var nextDivePlan: DivePlan?
+    @Published var currentLocationCoordinate: CLLocationCoordinate2D?
     private var listener: ListenerRegistration? = nil
     var weatherViewModel: WeatherViewModel
     
@@ -21,14 +23,23 @@ class DivePlannerViewModel: ObservableObject {
         self.weatherViewModel = weatherViewModel
     }
     
-    // Fetching coordinates and weather for a given location
+    // Enhanced method to fetch coordinates and weather
     func fetchCoordinatesAndWeather(for location: String) {
-        
-        Task {
-            await self.weatherViewModel.fetchWeatherDataByLocation(location: location)
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(location) { [weak self] (placemarks, error) in
+            guard let self = self, let placemark = placemarks?.first, error == nil else {
+                print("Geocoding error: \(error?.localizedDescription ?? "No error provided")")
+                return
+            }
+
+            let location = placemark.location?.coordinate
+            if let location = location {
+                self.currentLocationCoordinate = location
+                Task {
+                    await self.weatherViewModel.fetchWeatherDataByCoordinates(latitude: location.latitude, longitude: location.longitude)
+                }
+            }
         }
-        
-        
     }
     
     func selectDivePlan(_ divePlan: DivePlan) {
@@ -36,7 +47,7 @@ class DivePlannerViewModel: ObservableObject {
         fetchCoordinatesAndWeather(for: divePlan.location)
     }
     
-    // CRUD operations
+    // CRUD operations remain the same as you've provided
     func createDivePlan(location: String, date: String, depth: Int, duration: Int, deepDive: Bool, nightDive: Bool) {
         if let userId = Auth.auth().currentUser?.uid {
             let newPlan = DivePlan(userId: userId, location: location, date: date, depth: depth, duration: duration, deepDive: deepDive, nightDive: nightDive)
@@ -47,7 +58,8 @@ class DivePlannerViewModel: ObservableObject {
             }
         }
     }
-    
+
+    // Deletion and update functions
     func updateDivePlan(updatedPlan: DivePlan) {
         guard let planId = updatedPlan.id else { return }
         do {
@@ -66,15 +78,12 @@ class DivePlannerViewModel: ObservableObject {
         FirebaseManager.shared.fireStore.collection("divePlans").document(planId).delete { error in
             if let error = error {
                 print("Error deleting dive plan: \(error)")
-            } else {
-                DispatchQueue.main.async {
-                    self.divePlans.remove(at: index)
-                }
+            
             }
         }
     }
-    
-    // Reading all dive plans for the current user
+
+    // Reading and listening to dive plans
     func readDivePlans() {
         guard let userId = Auth.auth().currentUser?.uid else {
             print("User ID not found")
