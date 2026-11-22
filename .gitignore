@@ -1,3 +1,16 @@
+# Secrets / local config
 Config.xcconfig
 DeepBlueWeather/GoogleService-Info.plist
-Config.xcconfig
+
+# Xcode user state
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+
+# macOS
+.DS_Store
+
+# Misc
+*.backup
+*.zip

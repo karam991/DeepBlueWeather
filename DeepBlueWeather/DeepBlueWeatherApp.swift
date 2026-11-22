@@ -12,6 +12,14 @@ struct DeepBlueWeatherApp: App {
     @StateObject private var loginViewModel = LoginViewModel()
     @StateObject private var weatherViewModel = WeatherViewModel()
     @StateObject private var divePlannerViewModel: DivePlannerViewModel
+    @AppStorage("darkModeEnabled") private var darkModeEnabled = false
+
+    /// Debug-only: `-showLogin` launch argument shows the login screen (used for README screenshots).
+    #if DEBUG
+    private static let forceLoginScreen = CommandLine.arguments.contains("-showLogin")
+    #else
+    private static let forceLoginScreen = false
+    #endif
 
     init() {
         FirebaseConfiguration.shared.setLoggerLevel(.min)
@@ -23,15 +31,21 @@ struct DeepBlueWeatherApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if loginViewModel.userIsLoggedIn {
-                HomeScreen()
-                    .environmentObject(loginViewModel)
-                    .environmentObject(weatherViewModel)
-                    .environmentObject(divePlannerViewModel)
-            } else {
-                LoginRegisterView()
-                    .environmentObject(loginViewModel)
+            Group {
+                if loginViewModel.userIsLoggedIn && !Self.forceLoginScreen {
+                    HomeScreen()
+                        .environmentObject(loginViewModel)
+                        .environmentObject(weatherViewModel)
+                        .environmentObject(divePlannerViewModel)
+                        .transition(.opacity)
+                } else {
+                    LoginRegisterView()
+                        .environmentObject(loginViewModel)
+                        .transition(.opacity)
+                }
             }
+            .animation(.easeInOut(duration: 0.3), value: loginViewModel.userIsLoggedIn)
+            .preferredColorScheme(darkModeEnabled ? .dark : .light)
         }
     }
 }

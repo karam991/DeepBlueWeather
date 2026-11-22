@@ -9,41 +9,39 @@ import SwiftUI
 
 struct HomeScreen: View {
     @State private var selectedTab = 0
+    @EnvironmentObject private var divePlannerViewModel: DivePlannerViewModel
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            WeatherInfoView()
-                .tabItem {
-                    Label("Weather", systemImage: "sun.haze.circle.fill")
-                }
-                .tag(0)
+            NavigationStack {
+                WeatherInfoView()
+            }
+            .tabItem { Label("Conditions", systemImage: "water.waves") }
+            .tag(0)
 
-            NavigationView {
+            NavigationStack {
                 DivePlannerScreen()
             }
-            .tabItem {
-                Label("Dive Planner", systemImage: "square.and.pencil")
-            }
+            .tabItem { Label("Dives", systemImage: "figure.open.water.swim") }
             .tag(1)
 
-            NavigationView {
+            NavigationStack {
                 ChecklistScreen()
             }
-            .tabItem {
-                Label("Checklist", systemImage: "list.bullet")
-            }
+            .tabItem { Label("Checklist", systemImage: "checklist") }
             .tag(2)
 
-            NavigationView {
+            NavigationStack {
                 SettingsScreen()
             }
-            .tabItem {
-                Label("Settings", systemImage: "gearshape")
-            }
+            .tabItem { Label("Settings", systemImage: "gearshape") }
             .tag(3)
         }
-        .accentColor(.yellow)
-        .edgesIgnoringSafeArea(.all)
+        .tint(Theme.ocean)
+        .onAppear {
+            // Load plans right away so reminders and the widget are up to date.
+            if divePlannerViewModel.divePlans.isEmpty { divePlannerViewModel.readDivePlans() }
+        }
     }
 }
 

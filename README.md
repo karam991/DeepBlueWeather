@@ -1,59 +1,110 @@
 # DeepBlueWeather 🌊
 
-An iOS app for scuba divers that combines marine weather forecasting with dive planning tools. Built with SwiftUI and Firebase.
+An iOS app for scuba divers: live marine conditions, tides and daylight, dive planning with a **forecast-based gear list for every dive**, a dive log, reminders and a home-screen widget.
+
+Built with **SwiftUI**, **MVVM**, **Firebase** (Auth + Firestore), **WidgetKit**, **Swift Charts** and the free **Open-Meteo** marine & forecast APIs.
+
+| Conditions | Tide & daylight | Dive planner | Dive detail |
+|:---:|:---:|:---:|:---:|
+| ![Conditions](screenshots/conditions.png) | ![Tides](screenshots/tides.png) | ![Dives](screenshots/dives.png) | ![Dive detail](screenshots/dive-detail.png) |
+
+| Tide at dive time | Smart gear | Checklist | Login |
+|:---:|:---:|:---:|:---:|
+| ![Tide at dive time](screenshots/dive-tide.png) | ![Smart gear](screenshots/smart-gear.png) | ![Checklist](screenshots/checklist.png) | ![Login](screenshots/login.png) |
 
 ## Features
 
-- **Marine Weather** — Search any coastal or inland location and get hourly forecasts for air temperature, water temperature, wave height, wind speed, humidity and visibility. Marine data (water temp, waves) shows for coastal locations and gracefully falls back to N/A for inland cities.
-- **Dive Planner** — Create, view and delete dive plans stored in Firestore. Each plan includes location, date, depth, duration and dive type. The planner pre-fills weather data from your last weather search.
-- **Dive Checklist** — A categorized gear checklist (Essential Equipment, Additional Equipment, Safety, Documentation, Personal) with the ability to add and delete custom items. State persists between launches.
-- **Dark Mode** — Fully supported, toggled from Settings.
-- **Firebase Authentication** — Email/password registration and login.
+### Conditions
+- Search any location for hourly **water temperature, air temperature, waves, wind, rain chance and visibility**
+- A **dive rating** (Excellent → Poor) from wave height and wind
+- **Best dive window**: the calmest daylight hour in the next 24 hours
+- **Tide chart** (Swift Charts) with high/low times, plus sunrise, sunset and daylight hours
 
-## Tech Stack
+### Dive planner
+- Plans are stored in Firestore and sync in real time
+- Next dive, upcoming and past dives, plus totals (dives, bottom time, max depth)
+- **Dive detail**: conditions at the exact dive time, tide state, and a warning when a dive runs past sunset
+- **Share with your buddy**: plan, forecast, tide, gear list and an Apple Maps link as text
 
-- **SwiftUI** — Declarative UI with MVVM architecture
-- **Firebase Auth** — User authentication
-- **Cloud Firestore** — Real-time database for dive plans
-- **Open-Meteo API** — Free marine and weather forecast API (no key required)
-- **Apple CLGeocoder** — Location name to coordinates conversion
-- **async/await** — Modern Swift concurrency throughout
-- **UserDefaults** — Local persistence for checklist state
+### Smart gear list (per dive)
+Each dive gets its own packing list, generated from the forecast **for that date and place** and from the plan's settings. Every item shows why it was added:
 
-## Architecture
+| Condition | Added gear |
+|---|---|
+| Rain ≥ 40 % | Rain jacket, dry bag |
+| Water < 12 / 18 / 24 / 28 °C | Drysuit, 7 mm, 5 mm or 3 mm wetsuit, hood & gloves |
+| UV ≥ 6 or air ≥ 28 °C | Reef-safe sunscreen, hat & sunglasses, extra water |
+| Air < 15 °C | Warm jacket, thermos |
+| Waves ≥ 1 m / 1.5 m | Seasickness tablets / SMB & reel |
+| Night dive | Primary torch, backup torch, tank light |
+| Deep dive or > 30 m | SMB, redundant air source, dive computer check |
+| ≥ 60 min | Snacks & electrolytes |
 
-The app follows MVVM (Model-View-ViewModel) pattern:
+The general checklist (equipment, safety, documents, personal) stays in its own tab.
 
-- `WeatherViewModel` — Handles parallel API calls to Open-Meteo forecast and marine endpoints, exposes weather data to both the Weather tab and Dive Planner sheet via shared environment object
-- `DivePlannerViewModel` — Manages Firestore CRUD operations and real-time snapshot listener for dive plans
-- `ChecklistViewModel` — Manages checklist state with UserDefaults persistence
-- `LoginViewModel` — Handles Firebase Authentication
+### Dive log
+After a dive: actual depth and bottom time, water temperature, visibility, a 1–5 star rating, buddy, notes and photos.
 
-## Security
+### Reminders & widget
+- A local notification at 19:00 the evening before each dive (or 2 hours before for same-day plans)
+- A **"Next Dive" widget** (small, medium, Lock Screen) with a countdown, fed through an App Group
 
-- `GoogleService-Info.plist` is excluded from version control via `.gitignore`
-- No API keys are hardcoded — Open-Meteo requires no authentication
+### Design
+- Custom design system with light and dark colors, an animated ocean background, spring animations, zoom transitions and haptics
+- Respects **Reduce Motion**
 
-## Requirements
+## Tech stack
 
-- iOS 17+
-- Xcode 16+
-- Firebase project with Authentication and Firestore enabled
+| Area | Technology |
+|---|---|
+| UI | SwiftUI, Swift Charts, MapKit, PhotosUI |
+| Architecture | MVVM, `ObservableObject` view models, async/await |
+| Backend | Firebase Auth, Cloud Firestore (real-time listener) |
+| Data | Open-Meteo Forecast + Marine API (no API key), CLGeocoder |
+| System | WidgetKit, App Groups, UserNotifications |
+| Local storage | UserDefaults (checklists), Documents folder (dive photos) |
+| Tests | XCUITest walkthrough that also produces these screenshots |
+
+## Project structure
+
+```
+DeepBlueWeather/
+├── Models/          DivePlan, DiveLog, WeatherData, Checklist + SmartGearEngine, SharedDiveStore
+├── ViewModels/      WeatherViewModel + WeatherService, DivePlannerViewModel, ChecklistViewModel,
+│                    LoginViewModel, DiveReminderService
+└── Views/
+    ├── Screens/     Login, Home (tabs), DivePlanner + DiveDetail, DiveLogSheet, Checklist, Settings
+    └── Components/  Design system (StyleConstants), motion toolkit, WeatherInfoView, TideSunCard
+DeepBlueWidget/      WidgetKit extension ("Next Dive")
+firestore.rules      Security rules: users can only access their own dive plans
+```
 
 ## Setup
 
-1. Clone the repository
-2. Add your own `GoogleService-Info.plist` from your Firebase project to the `DeepBlueWeather/` folder
-3. Open `DeepBlueWeather.xcodeproj` in Xcode
-4. Build and run
+1. Clone the repository and open `DeepBlueWeather.xcodeproj` in Xcode 16 or newer (iOS 17+).
+2. Create a Firebase project with **Email/Password Auth** and **Cloud Firestore**.
+3. Add your own `GoogleService-Info.plist` to `DeepBlueWeather/` (it is git-ignored).
+4. Deploy the security rules from [`firestore.rules`](firestore.rules): paste them in *Firebase Console → Firestore → Rules*, or run `firebase deploy --only firestore:rules`.
+5. Run on the simulator. To run on a device, choose your team under *Signing & Capabilities* for both targets and register the App Group `group.Syntax.DeepBlueWeather` (or rename it in both `.entitlements` files and in `SharedDiveStore.swift`).
 
-## Screenshots
+## Security
 
+- No API keys in the code or git history. Open-Meteo needs no key, and `GoogleService-Info.plist` is git-ignored.
+- `firestore.rules` restricts every dive plan to its owner (`userId == request.auth.uid`) and blocks everything else.
+- Dive photos stay on the device.
 
-| Login | Weather | Dive Planner | Checklist |
-|-------|---------|--------------|-----------|
-| ![Login](screenshots/login.png) | ![Weather](screenshots/weather.png) | ![Dive Planner](screenshots/diveplanner.png) | ![Checklist](screenshots/checklist.png) |
+## Screenshots & UI test
+
+The UI test walks through every screen and can save the screenshots in this README:
+
+```bash
+TEST_RUNNER_SCREENSHOT_DIR=/path/to/folder \
+TEST_RUNNER_SCREENSHOT_DIVE=Nice \
+xcodebuild test -project DeepBlueWeather.xcodeproj -scheme DeepBlueWeather \
+  -destination 'platform=iOS Simulator,name=iPhone 15 Plus' -parallel-testing-enabled NO \
+  -only-testing:DeepBlueWeatherUITests
+```
 
 ## Author
 
-Abdulkarim Alnasser
+Abdulkarim Alnaser · [GitHub](https://github.com/karam991)

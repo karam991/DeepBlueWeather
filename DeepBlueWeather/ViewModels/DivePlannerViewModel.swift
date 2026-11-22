@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 import MapKit
+import WidgetKit
 
 class DivePlannerViewModel: ObservableObject {
     @Published var showingDivePlannerSheet = false
@@ -102,9 +103,39 @@ class DivePlannerViewModel: ObservableObject {
                 self.divePlans = querySnapshot?.documents.compactMap { document in
                     try? document.data(as: DivePlan.self)
                 } ?? []
+                self.plansDidChange()
             }
     }
     
+    // MARK: - Dive log
+
+    func saveLog(_ log: DiveLog?, for plan: DivePlan) {
+        var updated = plan
+        updated.log = log
+        updateDivePlan(updatedPlan: updated)
+    }
+
+    // MARK: - Side effects: reminders + widget
+
+    /// Keeps notifications and the home-screen widget in sync with the plans.
+    func plansDidChange() {
+        DiveReminderService.sync(with: divePlans)
+
+        let next = divePlans
+            .filter { ($0.parsedDate ?? .distantPast) > Date().addingTimeInterval(-3 * 3600) && $0.log == nil }
+            .min { ($0.parsedDate ?? .distantFuture) < ($1.parsedDate ?? .distantFuture) }
+
+        let shared = next.flatMap { plan in
+            plan.parsedDate.map {
+                SharedNextDive(location: plan.location.capitalized, date: $0, depth: plan.depth,
+                               duration: plan.duration, nightDive: plan.nightDive, deepDive: plan.deepDive)
+            }
+        }
+        if SharedDiveStore.save(shared) {
+            WidgetCenter.shared.reloadAllTimelines()
+        }
+    }
+
     func removeListener() {
         listener?.remove()
         listener = nil

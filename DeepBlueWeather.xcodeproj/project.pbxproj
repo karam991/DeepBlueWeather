@@ -17,9 +17,7 @@
 		633FBE0D2B8CBB3E00289E86 /* DeepBlueWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE0C2B8CBB3E00289E86 /* DeepBlueWeatherTests.swift */; };
 		633FBE172B8CBB3E00289E86 /* DeepBlueWeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE162B8CBB3E00289E86 /* DeepBlueWeatherUITests.swift */; };
 		633FBE192B8CBB3E00289E86 /* DeepBlueWeatherUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE182B8CBB3E00289E86 /* DeepBlueWeatherUITestsLaunchTests.swift */; };
-		633FBE2E2B8CBE8500289E86 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE2D2B8CBE8500289E86 /* HeaderView.swift */; };
 		633FBE302B8CC2B100289E86 /* WeatherInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE2F2B8CC2B100289E86 /* WeatherInfoView.swift */; };
-		633FBE322B8CC2C300289E86 /* NavigationOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE312B8CC2C300289E86 /* NavigationOptionsView.swift */; };
 		633FBE342B8CC2DB00289E86 /* BackgroundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE332B8CC2DB00289E86 /* BackgroundImageView.swift */; };
 		633FBE362B8CC50E00289E86 /* HomeScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE352B8CC50E00289E86 /* HomeScreenView.swift */; };
 		633FBE382B8CC76A00289E86 /* DivePlannerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633FBE372B8CC76A00289E86 /* DivePlannerScreen.swift */; };
@@ -35,15 +33,20 @@
 		6358BDA62BC1BD1D00F5A39B /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 6358BDA52BC1BD1D00F5A39B /* FirebaseAnalyticsWithoutAdIdSupport */; };
 		6358BDA82BC1BD1D00F5A39B /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 6358BDA72BC1BD1D00F5A39B /* FirebaseAppCheck */; };
 		639244792BDB475D00DACC73 /* StyleConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639244782BDB475D00DACC73 /* StyleConstants.swift */; };
-		6392447B2BDB50AC00DACC73 /* dateExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6392447A2BDB50AC00DACC73 /* dateExtention.swift */; };
 		63ED95902BC811B3003DEA6D /* DivePlanEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ED958F2BC811B3003DEA6D /* DivePlanEntity.swift */; };
-		63ED95942BC8122F003DEA6D /* UserEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ED95932BC8122F003DEA6D /* UserEntity.swift */; };
 		63ED95982BC828A4003DEA6D /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63ED95972BC828A4003DEA6D /* FirebaseFirestoreSwift */; };
 		63ED959A2BC94C2A003DEA6D /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ED95992BC94C2A003DEA6D /* FirebaseManager.swift */; };
 		63ED959C2BC963FE003DEA6D /* Checklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ED959B2BC963FE003DEA6D /* Checklist.swift */; };
 		63ED959E2BCE4EC6003DEA6D /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ED959D2BCE4EC6003DEA6D /* WeatherViewModel.swift */; };
 		63ED95A22BCE5938003DEA6D /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ED95A12BCE5938003DEA6D /* WeatherData.swift */; };
-		63ED95A42BCE9E51003DEA6D /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ED95A32BCE9E51003DEA6D /* SearchBarView.swift */; };
+		945794F601F3B6EB5B587B1F /* DiveLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EEAA8A66624FEE3AA94DB51 /* DiveLog.swift */; };
+		5922D546FADA8B6B316C3814 /* SharedDiveStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCD179E511F14F22B158D3F /* SharedDiveStore.swift */; };
+		7E3D949EED1539A76CF4F848 /* DiveReminderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06ED8C4D2E9E68FDB3DEEB /* DiveReminderService.swift */; };
+		4DE2680D37BAAA2EA8F8932C /* TideSunCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2978AEE8B90EBE4133411C /* TideSunCard.swift */; };
+		B9F2F677706EB00BE86AABF6 /* DiveLogSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91BDBBD1D870F6E931673D /* DiveLogSheet.swift */; };
+		0556E47C007677318AF63527 /* DeepBlueWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4F2768900188A91F394AF7 /* DeepBlueWidget.swift */; };
+		CFBB2FB1516B292AC1FE6B6B /* SharedDiveStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCD179E511F14F22B158D3F /* SharedDiveStore.swift */; };
+		8BDEF9D303BF59921383EC2D /* DeepBlueWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3D693677ED2F3BAC61BC251E /* DeepBlueWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +64,28 @@
 			remoteGlobalIDString = 633FBDF72B8CBB3A00289E86;
 			remoteInfo = DeepBlueWeather;
 		};
+		10EE628966B2456BE1EAA447 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 633FBDF02B8CBB3A00289E86 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 53A3B0307204311034652232;
+			remoteInfo = DeepBlueWidget;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8A7620BC784EE2BCBF214A96 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8BDEF9D303BF59921383EC2D /* DeepBlueWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6312B1DE2BC1BFCA00596CB0 /* LoginRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegisterView.swift; sourceTree = "<group>"; };
@@ -76,9 +100,7 @@
 		633FBE122B8CBB3E00289E86 /* DeepBlueWeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeepBlueWeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		633FBE162B8CBB3E00289E86 /* DeepBlueWeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepBlueWeatherUITests.swift; sourceTree = "<group>"; };
 		633FBE182B8CBB3E00289E86 /* DeepBlueWeatherUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepBlueWeatherUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		633FBE2D2B8CBE8500289E86 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		633FBE2F2B8CC2B100289E86 /* WeatherInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoView.swift; sourceTree = "<group>"; };
-		633FBE312B8CC2C300289E86 /* NavigationOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationOptionsView.swift; sourceTree = "<group>"; };
 		633FBE332B8CC2DB00289E86 /* BackgroundImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImageView.swift; sourceTree = "<group>"; };
 		633FBE352B8CC50E00289E86 /* HomeScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenView.swift; sourceTree = "<group>"; };
 		633FBE372B8CC76A00289E86 /* DivePlannerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivePlannerScreen.swift; sourceTree = "<group>"; };
@@ -89,15 +111,22 @@
 		6358BD982BB5A2B900F5A39B /* DivePlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivePlannerViewModel.swift; sourceTree = "<group>"; };
 		6358BD9C2BB5A60400F5A39B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		639244782BDB475D00DACC73 /* StyleConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleConstants.swift; sourceTree = "<group>"; };
-		6392447A2BDB50AC00DACC73 /* dateExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dateExtention.swift; sourceTree = "<group>"; };
 		63CFF0392F7B4A0400440749 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		63ED958F2BC811B3003DEA6D /* DivePlanEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DivePlanEntity.swift; sourceTree = "<group>"; };
-		63ED95932BC8122F003DEA6D /* UserEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEntity.swift; sourceTree = "<group>"; };
 		63ED95992BC94C2A003DEA6D /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		63ED959B2BC963FE003DEA6D /* Checklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checklist.swift; sourceTree = "<group>"; };
 		63ED959D2BCE4EC6003DEA6D /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		63ED95A12BCE5938003DEA6D /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
-		63ED95A32BCE9E51003DEA6D /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		9EEAA8A66624FEE3AA94DB51 /* DiveLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveLog.swift; sourceTree = "<group>"; };
+		8BCD179E511F14F22B158D3F /* SharedDiveStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDiveStore.swift; sourceTree = "<group>"; };
+		BA06ED8C4D2E9E68FDB3DEEB /* DiveReminderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveReminderService.swift; sourceTree = "<group>"; };
+		5C2978AEE8B90EBE4133411C /* TideSunCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TideSunCard.swift; sourceTree = "<group>"; };
+		FC91BDBBD1D870F6E931673D /* DiveLogSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveLogSheet.swift; sourceTree = "<group>"; };
+		C7FA4D4E560282A277D7C1AF /* DeepBlueWeather.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeepBlueWeather.entitlements; sourceTree = "<group>"; };
+		FB4F2768900188A91F394AF7 /* DeepBlueWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepBlueWidget.swift; sourceTree = "<group>"; };
+		44AB796ACF64F9435BAEF51D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CB2D56EEE3F39557B80EDBBA /* DeepBlueWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeepBlueWidget.entitlements; sourceTree = "<group>"; };
+		3D693677ED2F3BAC61BC251E /* DeepBlueWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeepBlueWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +158,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8558941A902D7AB94A63CE20 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -142,6 +178,7 @@
 		633FBDEF2B8CBB3A00289E86 = {
 			isa = PBXGroup;
 			children = (
+				8986C1E0B168F248FC935A33 /* DeepBlueWidget */,
 				633FBDFA2B8CBB3A00289E86 /* DeepBlueWeather */,
 				633FBE0B2B8CBB3E00289E86 /* DeepBlueWeatherTests */,
 				633FBE152B8CBB3E00289E86 /* DeepBlueWeatherUITests */,
@@ -153,6 +190,7 @@
 		633FBDF92B8CBB3A00289E86 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				3D693677ED2F3BAC61BC251E /* DeepBlueWidget.appex */,
 				633FBDF82B8CBB3A00289E86 /* DeepBlueWeather.app */,
 				633FBE082B8CBB3E00289E86 /* DeepBlueWeatherTests.xctest */,
 				633FBE122B8CBB3E00289E86 /* DeepBlueWeatherUITests.xctest */,
@@ -163,6 +201,7 @@
 		633FBDFA2B8CBB3A00289E86 /* DeepBlueWeather */ = {
 			isa = PBXGroup;
 			children = (
+				C7FA4D4E560282A277D7C1AF /* DeepBlueWeather.entitlements */,
 				63CFF0392F7B4A0400440749 /* Info.plist */,
 				63ED95992BC94C2A003DEA6D /* FirebaseManager.swift */,
 				6358BD9C2BB5A60400F5A39B /* GoogleService-Info.plist */,
@@ -215,6 +254,7 @@
 		633FBE262B8CBBA600289E86 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				FC91BDBBD1D870F6E931673D /* DiveLogSheet.swift */,
 				633FBE352B8CC50E00289E86 /* HomeScreenView.swift */,
 				633FBE372B8CC76A00289E86 /* DivePlannerScreen.swift */,
 				633FBE392B8CC78C00289E86 /* ChecklistScreen.swift */,
@@ -228,14 +268,11 @@
 		633FBE272B8CBBCA00289E86 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				633FBE2D2B8CBE8500289E86 /* HeaderView.swift */,
+				5C2978AEE8B90EBE4133411C /* TideSunCard.swift */,
 				633FBE2F2B8CC2B100289E86 /* WeatherInfoView.swift */,
-				633FBE312B8CC2C300289E86 /* NavigationOptionsView.swift */,
 				634028492BDB42F100AA4E5E /* Extensions.swift */,
 				633FBE332B8CC2DB00289E86 /* BackgroundImageView.swift */,
-				63ED95A32BCE9E51003DEA6D /* SearchBarView.swift */,
 				639244782BDB475D00DACC73 /* StyleConstants.swift */,
-				6392447A2BDB50AC00DACC73 /* dateExtention.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -250,6 +287,7 @@
 		633FBE292B8CBBF300289E86 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				BA06ED8C4D2E9E68FDB3DEEB /* DiveReminderService.swift */,
 				63ED959D2BCE4EC6003DEA6D /* WeatherViewModel.swift */,
 				6358BD982BB5A2B900F5A39B /* DivePlannerViewModel.swift */,
 				6312B1E52BC1C91100596CB0 /* LoginViewModel.swift */,
@@ -261,8 +299,9 @@
 		633FBE2A2B8CBC0D00289E86 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8BCD179E511F14F22B158D3F /* SharedDiveStore.swift */,
+				9EEAA8A66624FEE3AA94DB51 /* DiveLog.swift */,
 				63ED958F2BC811B3003DEA6D /* DivePlanEntity.swift */,
-				63ED95932BC8122F003DEA6D /* UserEntity.swift */,
 				63ED959B2BC963FE003DEA6D /* Checklist.swift */,
 				63ED95A12BCE5938003DEA6D /* WeatherData.swift */,
 			);
@@ -276,6 +315,16 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		8986C1E0B168F248FC935A33 /* DeepBlueWidget */ = {
+			isa = PBXGroup;
+			children = (
+				FB4F2768900188A91F394AF7 /* DeepBlueWidget.swift */,
+				44AB796ACF64F9435BAEF51D /* Info.plist */,
+				CB2D56EEE3F39557B80EDBBA /* DeepBlueWidget.entitlements */,
+			);
+			path = DeepBlueWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -286,10 +335,12 @@
 				633FBDF42B8CBB3A00289E86 /* Sources */,
 				633FBDF52B8CBB3A00289E86 /* Frameworks */,
 				633FBDF62B8CBB3A00289E86 /* Resources */,
+				8A7620BC784EE2BCBF214A96 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				00E2367B3F814DA6952AA9CB /* PBXTargetDependency */,
 			);
 			name = DeepBlueWeather;
 			packageProductDependencies = (
@@ -341,6 +392,23 @@
 			productReference = 633FBE122B8CBB3E00289E86 /* DeepBlueWeatherUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		53A3B0307204311034652232 /* DeepBlueWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78DA02E496134F8FE8CE97F2 /* Build configuration list for PBXNativeTarget "DeepBlueWidget" */;
+			buildPhases = (
+				9CB44B124BD338DD6FA8986D /* Sources */,
+				8558941A902D7AB94A63CE20 /* Frameworks */,
+				3716EBAC8B7244380777AA78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DeepBlueWidget;
+			productName = DeepBlueWidget;
+			productReference = 3D693677ED2F3BAC61BC251E /* DeepBlueWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -351,6 +419,9 @@
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
+					53A3B0307204311034652232 = {
+						CreatedOnToolsVersion = 26.2;
+					};
 					633FBDF72B8CBB3A00289E86 = {
 						CreatedOnToolsVersion = 15.2;
 					};
@@ -383,6 +454,7 @@
 				633FBDF72B8CBB3A00289E86 /* DeepBlueWeather */,
 				633FBE072B8CBB3E00289E86 /* DeepBlueWeatherTests */,
 				633FBE112B8CBB3E00289E86 /* DeepBlueWeatherUITests */,
+				53A3B0307204311034652232 /* DeepBlueWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -412,6 +484,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3716EBAC8B7244380777AA78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -419,14 +498,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9F2F677706EB00BE86AABF6 /* DiveLogSheet.swift in Sources */,
+				4DE2680D37BAAA2EA8F8932C /* TideSunCard.swift in Sources */,
+				7E3D949EED1539A76CF4F848 /* DiveReminderService.swift in Sources */,
+				5922D546FADA8B6B316C3814 /* SharedDiveStore.swift in Sources */,
+				945794F601F3B6EB5B587B1F /* DiveLog.swift in Sources */,
 				633FBE382B8CC76A00289E86 /* DivePlannerScreen.swift in Sources */,
 				633FBE3C2B8CCAE000289E86 /* SettingsScreen.swift in Sources */,
-				63ED95942BC8122F003DEA6D /* UserEntity.swift in Sources */,
 				633FBE342B8CC2DB00289E86 /* BackgroundImageView.swift in Sources */,
 				6358BD992BB5A2B900F5A39B /* DivePlannerViewModel.swift in Sources */,
 				63ED959E2BCE4EC6003DEA6D /* WeatherViewModel.swift in Sources */,
-				63ED95A42BCE9E51003DEA6D /* SearchBarView.swift in Sources */,
-				6392447B2BDB50AC00DACC73 /* dateExtention.swift in Sources */,
 				6358BD932BAB16C200F5A39B /* DivePlannerSheetView.swift in Sources */,
 				6312B1E62BC1C91100596CB0 /* LoginViewModel.swift in Sources */,
 				6312B1DF2BC1BFCA00596CB0 /* LoginRegisterView.swift in Sources */,
@@ -435,12 +516,10 @@
 				633FBE3A2B8CC78C00289E86 /* ChecklistScreen.swift in Sources */,
 				633FBDFC2B8CBB3A00289E86 /* DeepBlueWeatherApp.swift in Sources */,
 				63ED959A2BC94C2A003DEA6D /* FirebaseManager.swift in Sources */,
-				633FBE322B8CC2C300289E86 /* NavigationOptionsView.swift in Sources */,
 				63ED95902BC811B3003DEA6D /* DivePlanEntity.swift in Sources */,
 				63ED95A22BCE5938003DEA6D /* WeatherData.swift in Sources */,
 				633FBE362B8CC50E00289E86 /* HomeScreenView.swift in Sources */,
 				6340284A2BDB42F100AA4E5E /* Extensions.swift in Sources */,
-				633FBE2E2B8CBE8500289E86 /* HeaderView.swift in Sources */,
 				63ED959C2BC963FE003DEA6D /* Checklist.swift in Sources */,
 				633FBE302B8CC2B100289E86 /* WeatherInfoView.swift in Sources */,
 			);
@@ -463,6 +542,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9CB44B124BD338DD6FA8986D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0556E47C007677318AF63527 /* DeepBlueWidget.swift in Sources */,
+				CFBB2FB1516B292AC1FE6B6B /* SharedDiveStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -475,6 +563,11 @@
 			isa = PBXTargetDependency;
 			target = 633FBDF72B8CBB3A00289E86 /* DeepBlueWeather */;
 			targetProxy = 633FBE132B8CBB3E00289E86 /* PBXContainerItemProxy */;
+		};
+		00E2367B3F814DA6952AA9CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 53A3B0307204311034652232 /* DeepBlueWidget */;
+			targetProxy = 10EE628966B2456BE1EAA447 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -603,6 +696,7 @@
 		633FBE1D2B8CBB3E00289E86 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeepBlueWeather/DeepBlueWeather.entitlements;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -634,6 +728,7 @@
 		633FBE1E2B8CBB3E00289E86 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeepBlueWeather/DeepBlueWeather.entitlements;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -730,6 +825,56 @@
 			};
 			name = Release;
 		};
+		8A54AA5C375AED81995FF682 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeepBlueWidget/DeepBlueWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeepBlueWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeepBlue;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Syntax.DeepBlueWeather.DeepBlueWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		118942E0AF30A91FA0DA4C78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeepBlueWidget/DeepBlueWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeepBlueWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeepBlue;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Syntax.DeepBlueWeather.DeepBlueWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -765,6 +910,15 @@
 			buildConfigurations = (
 				633FBE232B8CBB3E00289E86 /* Debug */,
 				633FBE242B8CBB3E00289E86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78DA02E496134F8FE8CE97F2 /* Build configuration list for PBXNativeTarget "DeepBlueWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A54AA5C375AED81995FF682 /* Debug */,
+				118942E0AF30A91FA0DA4C78 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
