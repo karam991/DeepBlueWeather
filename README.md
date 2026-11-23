@@ -4,6 +4,14 @@ An iOS app for scuba divers: live marine conditions, tides and daylight, dive pl
 
 Built with **SwiftUI**, **MVVM**, **Firebase** (Auth + Firestore), **WidgetKit**, **Swift Charts** and the free **Open-Meteo** marine & forecast APIs.
 
+## See it in action
+
+| Plan a dive & pack smart gear | Live conditions & tides | Animated ocean design |
+|:---:|:---:|:---:|
+| <img src="screenshots/demo-dive.gif" width="250" alt="Planning a night dive, opening it and checking off the smart gear list"> | <img src="screenshots/demo-conditions.gif" width="250" alt="Searching Nice, switching hours and scrolling to the tide chart"> | <img src="screenshots/demo-ocean.gif" width="250" alt="Login screen with animated waves and bubbles"> |
+
+## Screenshots
+
 | Conditions | Tide & daylight | Dive planner | Dive detail |
 |:---:|:---:|:---:|:---:|
 | ![Conditions](screenshots/conditions.png) | ![Tides](screenshots/tides.png) | ![Dives](screenshots/dives.png) | ![Dive detail](screenshots/dive-detail.png) |

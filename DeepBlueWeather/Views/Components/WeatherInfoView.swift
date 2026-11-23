@@ -67,6 +67,7 @@ struct WeatherInfoView: View {
                             .card(padding: Theme.Spacing.md)
                         }
                         .buttonStyle(PressableStyle())
+                        .accessibilityIdentifier("best-window")
                         .appear(delay: 0.08)
                     }
 
@@ -81,6 +82,7 @@ struct WeatherInfoView: View {
                                         HourChip(hour: item, isSelected: item.id == hour.id, isBest: item.id == bestHourID)
                                     }
                                     .buttonStyle(PressableStyle(scale: 0.94))
+                                    .accessibilityIdentifier("hour-chip")
                                     .scrollTransition(.interactive, axis: .horizontal) { content, phase in
                                         content
                                             .scaleEffect(phase.isIdentity ? 1 : 0.9)

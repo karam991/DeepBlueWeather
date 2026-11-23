@@ -761,6 +761,7 @@ private struct GearRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(PressableStyle(scale: 0.98))
+        .accessibilityIdentifier("gear-row")
         .sensoryFeedback(.selection, trigger: isChecked)
     }
 }
