@@ -2,7 +2,7 @@
 //  LoginViewModel.swift
 //  DeepBlueWeather
 //
-//  Created by Abdulkarim Alnaser on 06.04.24.
+//  Created by Karam Alnaser on 06.04.24.
 //
 
 import Foundation

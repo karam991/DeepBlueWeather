@@ -107,4 +107,4 @@ An automated UI test (XCUITest) walks through every screen: search, dive detail,
 
 ## Author
 
-Abdulkarim Alnaser · [GitHub](https://github.com/karam991)
+Karam Alnaser · [GitHub](https://github.com/karam991)

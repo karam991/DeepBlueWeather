@@ -2,7 +2,7 @@
 //  DeepBlueWeatherUITests.swift
 //  DeepBlueWeatherUITests
 //
-//  Created by Abdulkarim Alnaser on 26.02.24.
+//  Created by Karam Alnaser on 26.02.24.
 //
 //  Walks through every main screen. Also produces the README screenshots:
 //    TEST_RUNNER_SCREENSHOT_DIR=<folder>   save each screen as PNG there

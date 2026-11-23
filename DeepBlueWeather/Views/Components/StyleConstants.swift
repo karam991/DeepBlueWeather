@@ -2,7 +2,7 @@
 //  StyleConstants.swift
 //  DeepBlueWeather
 //
-//  Created by Abdulkarim Alnaser on 26.04.24.
+//  Created by Karam Alnaser on 26.04.24.
 //
 //  Central design system: colors, spacing, radii and reusable components.
 //  Colors are defined in code with explicit light/dark variants so the app

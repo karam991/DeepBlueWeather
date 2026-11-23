@@ -2,7 +2,7 @@
 //  FirebaseManager.swift
 //  DeepBlueWeather
 //
-//  Created by Abdulkarim Alnaser on 12.04.24.
+//  Created by Karam Alnaser on 12.04.24.
 //
 
 import Foundation

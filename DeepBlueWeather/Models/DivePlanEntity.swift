@@ -2,7 +2,7 @@
 //  DivePlanEntity.swift
 //  DeepBlueWeather
 //
-//  Created by Abdulkarim Alnaser on 11.04.24.
+//  Created by Karam Alnaser on 11.04.24.
 //
 
 import Foundation

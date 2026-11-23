@@ -2,7 +2,7 @@
 //  BackgroundImageView.swift
 //  DeepBlueWeather
 //
-//  Created by Abdulkarim Alnaser on 26.02.24.
+//  Created by Karam Alnaser on 26.02.24.
 //
 //  Motion toolkit: animated ocean background, bubbles, entrance animations,
 //  pressable cards, celebration burst and zoom transitions.

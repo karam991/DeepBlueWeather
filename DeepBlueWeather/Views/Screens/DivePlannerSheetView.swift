@@ -2,7 +2,7 @@
 //  DivePlannerSheetView.swift
 //  DeepBlueWeather
 //
-//  Created by Abdulkarim Alnaser on 20.03.24.
+//  Created by Karam Alnaser on 20.03.24.
 //
 
 import SwiftUI

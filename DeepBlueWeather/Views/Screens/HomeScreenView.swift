@@ -2,7 +2,7 @@
 //  HomeScreenView.swift
 //  DeepBlueWeather
 //
-//  Created by Abdulkarim Alnaser on 26.02.24.
+//  Created by Karam Alnaser on 26.02.24.
 //
 
 import SwiftUI

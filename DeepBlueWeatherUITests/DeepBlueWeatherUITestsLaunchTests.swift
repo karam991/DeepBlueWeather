@@ -2,7 +2,7 @@
 //  DeepBlueWeatherUITestsLaunchTests.swift
 //  DeepBlueWeatherUITests
 //
-//  Created by Abdulkarim Alnaser on 26.02.24.
+//  Created by Karam Alnaser on 26.02.24.
 //
 
 import XCTest
