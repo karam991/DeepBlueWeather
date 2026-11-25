@@ -58,6 +58,43 @@ enum Theme {
         static let lg: CGFloat = 20
         static let xl: CGFloat = 28
     }
+
+    // MARK: Living ocean (see design/DESIGN_BRIEF.md)
+
+    /// Point sizes for big numbers. Always pass them through `@ScaledMetric`.
+    enum NumberSize {
+        /// The one number in a hero (water temperature).
+        static let hero: CGFloat = 108
+        /// The leading number of a featured card (dive countdown).
+        static let featured: CGFloat = 56
+        /// Numbers in a facts strip.
+        static let stat: CGFloat = 20
+    }
+
+    /// Content drawn on top of the sea. It does not change with light or dark mode.
+    enum OnSea {
+        static let primary = Color.white
+        static let secondary = Color.white.opacity(0.85)
+        static let highlight = Color(hex: 0xF2B35E)
+        static let scrimTop = Color.black.opacity(0.28)
+        static let scrimBottom = Color.black.opacity(0.45)
+    }
+
+    enum Hero {
+        /// Minimum heights; heroes grow with Dynamic Type.
+        static let surfaceMinHeight: CGFloat = 490
+        static let sectionMinHeight: CGFloat = 420
+    }
+
+    enum Motion {
+        static let seaFrameInterval: Double = 1 / 30
+        /// State changes: selection, progress, expanding content.
+        static let state = Animation.spring(response: 0.4, dampingFraction: 1)
+        /// The sea moving from one forecast hour to another.
+        static let seaChange: Double = 0.6
+        /// Upper limit for a one-shot delight moment.
+        static let delightDuration: Double = 1.4
+    }
 }
 
 // MARK: - Color helpers
