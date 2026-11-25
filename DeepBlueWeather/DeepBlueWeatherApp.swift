@@ -31,21 +31,33 @@ struct DeepBlueWeatherApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Group {
-                if loginViewModel.userIsLoggedIn && !Self.forceLoginScreen {
-                    HomeScreen()
-                        .environmentObject(loginViewModel)
-                        .environmentObject(weatherViewModel)
-                        .environmentObject(divePlannerViewModel)
-                        .transition(.opacity)
-                } else {
-                    LoginRegisterView()
-                        .environmentObject(loginViewModel)
-                        .transition(.opacity)
-                }
+            #if DEBUG
+            if CommandLine.arguments.contains("-designGallery") {
+                DesignGalleryView()
+            } else {
+                appContent
             }
-            .animation(.easeInOut(duration: 0.3), value: loginViewModel.userIsLoggedIn)
-            .preferredColorScheme(darkModeEnabled ? .dark : .light)
+            #else
+            appContent
+            #endif
         }
+    }
+
+    private var appContent: some View {
+        Group {
+            if loginViewModel.userIsLoggedIn && !Self.forceLoginScreen {
+                HomeScreen()
+                    .environmentObject(loginViewModel)
+                    .environmentObject(weatherViewModel)
+                    .environmentObject(divePlannerViewModel)
+                    .transition(.opacity)
+            } else {
+                LoginRegisterView()
+                    .environmentObject(loginViewModel)
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.3), value: loginViewModel.userIsLoggedIn)
+        .preferredColorScheme(darkModeEnabled ? .dark : .light)
     }
 }
