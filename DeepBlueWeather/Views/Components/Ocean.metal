@@ -2,7 +2,7 @@
 //  Ocean.metal
 //  DeepBlueWeather
 //
-//  Design exploration: two stitchable shaders that draw a semi-realistic sea.
+//  Two stitchable shaders that draw a semi-realistic sea.
 //    oceanSurface — perspective view across the water (sky, sun/moon, waves)
 //    waterline    — side-on cross section (sky above, light shafts below)
 //  Every visual parameter comes from real forecast data (see SeaState).
@@ -49,8 +49,8 @@ static Light makeLight(float sunElev, float cloud) {
 static float3 skyColor(float3 rd, float3 sunDir, Light l, float time, float disk) {
     float h = clamp(rd.y * 2.6, 0.0, 1.0);
 
-    float3 zen = mix(float3(0.008, 0.017, 0.045), float3(0.06, 0.27, 0.55), l.day);
-    float3 hor = mix(float3(0.045, 0.085, 0.16), float3(0.55, 0.74, 0.86), l.day);
+    float3 zen = mix(float3(0.016, 0.034, 0.085), float3(0.06, 0.27, 0.55), l.day);
+    float3 hor = mix(float3(0.085, 0.155, 0.27), float3(0.55, 0.74, 0.86), l.day);
     zen = mix(zen, float3(0.13, 0.17, 0.37), l.gold * 0.75);
     hor = mix(hor, float3(0.98, 0.55, 0.30), l.gold * 0.85);
     float3 col = mix(hor, zen, pow(h, 0.62));
@@ -58,7 +58,7 @@ static float3 skyColor(float3 rd, float3 sunDir, Light l, float time, float disk
     float sd = max(dot(rd, sunDir), 0.0);
     float3 sunTint = mix(float3(1.0, 0.95, 0.84), float3(1.0, 0.58, 0.26), l.gold);
     sunTint = mix(sunTint, float3(0.72, 0.82, 1.0), l.night);
-    float clear = pow(1.0 - l.cloud * 0.92, 2.0);
+    float clear = max(pow(1.0 - l.cloud * 0.92, 2.0), 0.28 * l.night);
 
     // Halo around sun or moon
     col += sunTint * (pow(sd, 90.0) * 0.35 + pow(sd, 9.0) * 0.12) * clear * mix(1.0, 0.55, l.night);
@@ -82,7 +82,7 @@ static float3 skyColor(float3 rd, float3 sunDir, Light l, float time, float disk
     float2 cp = float2(rd.x / (rd.y + 0.12), 1.0 / (rd.y + 0.12));
     float n = fbm(cp * float2(1.1, 0.55) + float2(time * 0.012, 0.0));
     float cover = smoothstep(mix(0.62, 0.24, l.cloud), mix(0.95, 0.72, l.cloud), n);
-    float3 cloudCol = mix(float3(0.035, 0.05, 0.085), float3(0.86, 0.89, 0.93), l.day);
+    float3 cloudCol = mix(float3(0.095, 0.135, 0.205), float3(0.86, 0.89, 0.93), l.day);
     cloudCol = mix(cloudCol, float3(0.95, 0.6, 0.45), l.gold * 0.6);
     cloudCol = mix(cloudCol, cloudCol * float3(0.46, 0.50, 0.56) * (0.75 + 0.5 * n), l.cloud);
     float overcast = mix(0.35, 0.95, l.cloud);
@@ -181,7 +181,7 @@ static float swellHeight(float2 p, float time, float height, float chop, int oct
         refl.y = abs(refl.y);
         float fres = 0.03 + 0.97 * pow(1.0 - clamp(dot(n, -rd), 0.0, 1.0), 5.0);
 
-        float3 deep = mix(float3(0.004, 0.016, 0.033), float3(0.008, 0.105, 0.16), l.day);
+        float3 deep = mix(float3(0.008, 0.028, 0.055), float3(0.008, 0.105, 0.16), l.day);
         deep = mix(deep, float3(0.05, 0.06, 0.11), l.gold * 0.6);
         deep = mix(deep, deep * float3(0.65, 0.78, 0.74), cloud);
         float3 scatter = mix(float3(0.0, 0.035, 0.05), float3(0.0, 0.30, 0.30), l.day) * (1.0 - cloud * 0.55);
@@ -194,7 +194,7 @@ static float swellHeight(float2 p, float time, float height, float chop, int oct
         float3 sunTint = mix(float3(1.0, 0.92, 0.75), float3(1.0, 0.52, 0.22), l.gold);
         sunTint = mix(sunTint, float3(0.65, 0.78, 1.0), l.night);
         float sd = max(dot(refl, sunDir), 0.0);
-        col += sunTint * (pow(sd, 420.0) * 2.4 + pow(sd, 60.0) * 0.16) * (1.0 - cloud * 0.9)
+        col += sunTint * (pow(sd, 420.0) * 2.4 + pow(sd, 60.0) * 0.16) * (1.0 - cloud * mix(0.9, 0.6, l.night))
                * mix(1.0, 0.75, l.night);
 
         // Whitecaps only when the sea is actually rough

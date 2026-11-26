@@ -47,14 +47,14 @@
 		0556E47C007677318AF63527 /* DeepBlueWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4F2768900188A91F394AF7 /* DeepBlueWidget.swift */; };
 		CFBB2FB1516B292AC1FE6B6B /* SharedDiveStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCD179E511F14F22B158D3F /* SharedDiveStore.swift */; };
 		8BDEF9D303BF59921383EC2D /* DeepBlueWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3D693677ED2F3BAC61BC251E /* DeepBlueWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		EB2947C6CAD3E10D48DF6EA7 /* Ocean.metal in Sources */ = {isa = PBXBuildFile; fileRef = F991C7FFEB04F78274BAC447 /* Ocean.metal */; };
-		792D0C09586E04FB0397ECF5 /* ExplorationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F88A51D6402330A0369C7B8 /* ExplorationData.swift */; };
-		8812B891294D8E0E1E22BBB8 /* ExplorationComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD4FAE4A413EDA6A449D6E9 /* ExplorationComponents.swift */; };
-		3BE1FFE10211E3C3E27BDD64 /* VariantALivingOcean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8783657C5BFD938497022266 /* VariantALivingOcean.swift */; };
-		CB565E7061A89ABEB1835BDD /* VariantBLogbook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562EE5F07C02F4566DABA4C4 /* VariantBLogbook.swift */; };
-		F1409A1C6B8B534102C2C405 /* VariantCWaterline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D5443DB61FFE00BE8A87B52 /* VariantCWaterline.swift */; };
-		F8DCDE5C77D3BB5B56CD9C83 /* ExplorationSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B5632B41AFB09F7EA1B125 /* ExplorationSnapshotTests.swift */; };
-		D383A34B475CBD15A65B154A /* DesignGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092F270603515F14EAF694AF /* DesignGalleryView.swift */; };
+		4DA2CACF61E7094A98E10450 /* Ocean.metal in Sources */ = {isa = PBXBuildFile; fileRef = 62E14B0D6AE2A504D00E0291 /* Ocean.metal */; };
+		EBEC9EE074E0D9462F26A754 /* SeaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB4D8C53720A2CA44F07EDD /* SeaView.swift */; };
+		D730C7D87745FCB587F8FF46 /* FactsStrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABD586DB656FFF76D44C4C9 /* FactsStrip.swift */; };
+		D0A863E0613CE09171687464 /* HourlyForecastChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B6B2B05343F2A3FABD7DAF /* HourlyForecastChart.swift */; };
+		02BF0C9F1F52807E94D20B2F /* ConditionsHero.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5261FB2159E310A97E0C24 /* ConditionsHero.swift */; };
+		EAFD228F3490F9AABDF61E7F /* SeaState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DE4084A8EF10E4B06DB9EE /* SeaState.swift */; };
+		215C5A96A0F91A378A558021 /* ConditionsForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250F6D25A3FF2FD8399B4D88 /* ConditionsForecast.swift */; };
+		7E2B77D98D645DE0AF85D789 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6D8A9F76888DE68B4A328 /* AppearanceMode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,14 +135,14 @@
 		44AB796ACF64F9435BAEF51D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB2D56EEE3F39557B80EDBBA /* DeepBlueWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeepBlueWidget.entitlements; sourceTree = "<group>"; };
 		3D693677ED2F3BAC61BC251E /* DeepBlueWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeepBlueWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		F991C7FFEB04F78274BAC447 /* Ocean.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ocean.metal; sourceTree = "<group>"; };
-		1F88A51D6402330A0369C7B8 /* ExplorationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorationData.swift; sourceTree = "<group>"; };
-		5CD4FAE4A413EDA6A449D6E9 /* ExplorationComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorationComponents.swift; sourceTree = "<group>"; };
-		8783657C5BFD938497022266 /* VariantALivingOcean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariantALivingOcean.swift; sourceTree = "<group>"; };
-		562EE5F07C02F4566DABA4C4 /* VariantBLogbook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariantBLogbook.swift; sourceTree = "<group>"; };
-		7D5443DB61FFE00BE8A87B52 /* VariantCWaterline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariantCWaterline.swift; sourceTree = "<group>"; };
-		C4B5632B41AFB09F7EA1B125 /* ExplorationSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorationSnapshotTests.swift; sourceTree = "<group>"; };
-		092F270603515F14EAF694AF /* DesignGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignGalleryView.swift; sourceTree = "<group>"; };
+		62E14B0D6AE2A504D00E0291 /* Ocean.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Ocean.metal; sourceTree = "<group>"; };
+		7DB4D8C53720A2CA44F07EDD /* SeaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeaView.swift; sourceTree = "<group>"; };
+		1ABD586DB656FFF76D44C4C9 /* FactsStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsStrip.swift; sourceTree = "<group>"; };
+		09B6B2B05343F2A3FABD7DAF /* HourlyForecastChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyForecastChart.swift; sourceTree = "<group>"; };
+		BB5261FB2159E310A97E0C24 /* ConditionsHero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionsHero.swift; sourceTree = "<group>"; };
+		44DE4084A8EF10E4B06DB9EE /* SeaState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeaState.swift; sourceTree = "<group>"; };
+		250F6D25A3FF2FD8399B4D88 /* ConditionsForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionsForecast.swift; sourceTree = "<group>"; };
+		B7A6D8A9F76888DE68B4A328 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,7 +243,6 @@
 		633FBE0B2B8CBB3E00289E86 /* DeepBlueWeatherTests */ = {
 			isa = PBXGroup;
 			children = (
-				C4B5632B41AFB09F7EA1B125 /* ExplorationSnapshotTests.swift */,
 				633FBE0C2B8CBB3E00289E86 /* DeepBlueWeatherTests.swift */,
 			);
 			path = DeepBlueWeatherTests;
@@ -263,7 +262,6 @@
 			children = (
 				633FBE262B8CBBA600289E86 /* Screens */,
 				633FBE272B8CBBCA00289E86 /* Components */,
-				52C45F9EE54676439749ADA1 /* Explorations */,
 				633FBE282B8CBBD900289E86 /* Shared */,
 			);
 			path = Views;
@@ -287,6 +285,11 @@
 			isa = PBXGroup;
 			children = (
 				5C2978AEE8B90EBE4133411C /* TideSunCard.swift */,
+				62E14B0D6AE2A504D00E0291 /* Ocean.metal */,
+				7DB4D8C53720A2CA44F07EDD /* SeaView.swift */,
+				1ABD586DB656FFF76D44C4C9 /* FactsStrip.swift */,
+				09B6B2B05343F2A3FABD7DAF /* HourlyForecastChart.swift */,
+				BB5261FB2159E310A97E0C24 /* ConditionsHero.swift */,
 				633FBE2F2B8CC2B100289E86 /* WeatherInfoView.swift */,
 				634028492BDB42F100AA4E5E /* Extensions.swift */,
 				633FBE332B8CC2DB00289E86 /* BackgroundImageView.swift */,
@@ -321,6 +324,9 @@
 				9EEAA8A66624FEE3AA94DB51 /* DiveLog.swift */,
 				63ED958F2BC811B3003DEA6D /* DivePlanEntity.swift */,
 				63ED959B2BC963FE003DEA6D /* Checklist.swift */,
+				44DE4084A8EF10E4B06DB9EE /* SeaState.swift */,
+				250F6D25A3FF2FD8399B4D88 /* ConditionsForecast.swift */,
+				B7A6D8A9F76888DE68B4A328 /* AppearanceMode.swift */,
 				63ED95A12BCE5938003DEA6D /* WeatherData.swift */,
 			);
 			path = Models;
@@ -341,20 +347,6 @@
 				CB2D56EEE3F39557B80EDBBA /* DeepBlueWidget.entitlements */,
 			);
 			path = DeepBlueWidget;
-			sourceTree = "<group>";
-		};
-		52C45F9EE54676439749ADA1 /* Explorations */ = {
-			isa = PBXGroup;
-			children = (
-				F991C7FFEB04F78274BAC447 /* Ocean.metal */,
-				1F88A51D6402330A0369C7B8 /* ExplorationData.swift */,
-				5CD4FAE4A413EDA6A449D6E9 /* ExplorationComponents.swift */,
-				8783657C5BFD938497022266 /* VariantALivingOcean.swift */,
-				562EE5F07C02F4566DABA4C4 /* VariantBLogbook.swift */,
-				092F270603515F14EAF694AF /* DesignGalleryView.swift */,
-				7D5443DB61FFE00BE8A87B52 /* VariantCWaterline.swift */,
-			);
-			path = Explorations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -549,17 +541,18 @@
 				633FBDFC2B8CBB3A00289E86 /* DeepBlueWeatherApp.swift in Sources */,
 				63ED959A2BC94C2A003DEA6D /* FirebaseManager.swift in Sources */,
 				63ED95902BC811B3003DEA6D /* DivePlanEntity.swift in Sources */,
+				EAFD228F3490F9AABDF61E7F /* SeaState.swift in Sources */,
+				215C5A96A0F91A378A558021 /* ConditionsForecast.swift in Sources */,
+				7E2B77D98D645DE0AF85D789 /* AppearanceMode.swift in Sources */,
 				63ED95A22BCE5938003DEA6D /* WeatherData.swift in Sources */,
 				633FBE362B8CC50E00289E86 /* HomeScreenView.swift in Sources */,
 				6340284A2BDB42F100AA4E5E /* Extensions.swift in Sources */,
 				63ED959C2BC963FE003DEA6D /* Checklist.swift in Sources */,
-				EB2947C6CAD3E10D48DF6EA7 /* Ocean.metal in Sources */,
-				792D0C09586E04FB0397ECF5 /* ExplorationData.swift in Sources */,
-				8812B891294D8E0E1E22BBB8 /* ExplorationComponents.swift in Sources */,
-				3BE1FFE10211E3C3E27BDD64 /* VariantALivingOcean.swift in Sources */,
-				CB565E7061A89ABEB1835BDD /* VariantBLogbook.swift in Sources */,
-				D383A34B475CBD15A65B154A /* DesignGalleryView.swift in Sources */,
-				F1409A1C6B8B534102C2C405 /* VariantCWaterline.swift in Sources */,
+				4DA2CACF61E7094A98E10450 /* Ocean.metal in Sources */,
+				EBEC9EE074E0D9462F26A754 /* SeaView.swift in Sources */,
+				D730C7D87745FCB587F8FF46 /* FactsStrip.swift in Sources */,
+				D0A863E0613CE09171687464 /* HourlyForecastChart.swift in Sources */,
+				02BF0C9F1F52807E94D20B2F /* ConditionsHero.swift in Sources */,
 				633FBE302B8CC2B100289E86 /* WeatherInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,7 +561,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8DCDE5C77D3BB5B56CD9C83 /* ExplorationSnapshotTests.swift in Sources */,
 				633FBE0D2B8CBB3E00289E86 /* DeepBlueWeatherTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

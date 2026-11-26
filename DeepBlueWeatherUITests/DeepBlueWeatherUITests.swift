@@ -79,16 +79,18 @@ final class DeepBlueWeatherUITests: XCTestCase {
         search.typeText("Nice, France\n")
         XCTAssertTrue(app.staticTexts["Hourly forecast"].waitForExistence(timeout: 20))
         sleep(2)
-        // Tap up to three hour chips that are actually on screen.
-        let chips = app.buttons.matching(identifier: "hour-chip")
-        var tapped = 0
-        for index in 1..<min(chips.count, 8) where tapped < 3 {
-            let chip = chips.element(boundBy: index)
-            guard chip.isHittable, chip.frame.maxX < app.frame.maxX else { continue }
-            chip.tap()
-            tapped += 1
+        // Drag along the 24 h curve; the sea above follows the selected hour.
+        let chart = app.descendants(matching: .any).matching(identifier: "hourly-chart").firstMatch
+        XCTAssertTrue(chart.waitForExistence(timeout: 5))
+        let hero = app.descendants(matching: .any).matching(identifier: "conditions-hero").firstMatch
+        let before = hero.label
+        for (from, to) in [(0.05, 0.45), (0.45, 0.85)] {
+            chart.coordinate(withNormalizedOffset: CGVector(dx: from, dy: 0.6))
+                .press(forDuration: 0.1, thenDragTo: chart.coordinate(withNormalizedOffset: CGVector(dx: to, dy: 0.6)),
+                       withVelocity: .slow, thenHoldForDuration: 0.2)
             sleep(1)
         }
+        XCTAssertNotEqual(hero.label, before, "Dragging the chart should change the selected hour")
         let best = app.buttons["best-window"]
         if best.exists { best.tap(); sleep(2) }
         scroll(to: app.staticTexts["Tide & daylight"], in: app)

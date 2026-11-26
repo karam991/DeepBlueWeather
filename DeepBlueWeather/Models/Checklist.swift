@@ -76,23 +76,22 @@ enum SmartGearEngine {
 
             // Water temperature → exposure suit
             if let rawWater = hour.waterTemperature {
-                // Classify on the rounded value the user sees ("Water 18 °C").
-                let water = rawWater.rounded()
-                let tempText = String(format: "Water %.0f °C", water)
-                switch water {
-                case ..<12:
+                let suit = ExposureSuit(water: rawWater)
+                let tempText = String(format: "Water %.0f °C", rawWater.rounded())
+                switch suit {
+                case .drysuit:
                     add("drysuit", "Drysuit + undersuit", tempText, "snowflake", .exposure, Theme.ocean)
                     add("hood", "Hood", tempText, "person.crop.circle.fill", .exposure, Theme.ocean)
                     add("thick-gloves", "Thick gloves", tempText, "hand.raised.fill", .exposure, Theme.ocean)
-                case 12..<18:
+                case .wetsuit7:
                     add("wetsuit-7", "7 mm wetsuit", tempText, "figure.open.water.swim", .exposure, Theme.ocean)
                     add("hood", "Hood", tempText, "person.crop.circle.fill", .exposure, Theme.ocean)
                     add("thick-gloves", "Gloves", tempText, "hand.raised.fill", .exposure, Theme.ocean)
-                case 18..<24:
+                case .wetsuit5:
                     add("wetsuit-5", "5 mm wetsuit", tempText, "figure.open.water.swim", .exposure, Theme.teal)
-                case 24..<28:
+                case .wetsuit3:
                     add("wetsuit-3", "3 mm wetsuit", tempText, "figure.open.water.swim", .exposure, Theme.teal)
-                default:
+                case .shorty:
                     add("shorty", "Shorty or rash guard", tempText, "figure.open.water.swim", .exposure, Theme.kelp)
                 }
             }
@@ -124,6 +123,33 @@ enum SmartGearEngine {
         }
 
         return items
+    }
+}
+
+// MARK: - Exposure suit
+
+enum ExposureSuit {
+    case drysuit, wetsuit7, wetsuit5, wetsuit3, shorty
+
+    /// Classifies the rounded value the user sees ("Water 18 °C").
+    init(water: Double) {
+        switch water.rounded() {
+        case ..<12: self = .drysuit
+        case 12..<18: self = .wetsuit7
+        case 18..<24: self = .wetsuit5
+        case 24..<28: self = .wetsuit3
+        default: self = .shorty
+        }
+    }
+
+    var label: String {
+        switch self {
+        case .drysuit: return "Drysuit"
+        case .wetsuit7: return "7 mm wetsuit"
+        case .wetsuit5: return "5 mm wetsuit"
+        case .wetsuit3: return "3 mm wetsuit"
+        case .shorty: return "Shorty"
+        }
     }
 }
 

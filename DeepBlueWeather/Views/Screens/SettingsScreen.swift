@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsScreen: View {
     @EnvironmentObject private var loginViewModel: LoginViewModel
-    @AppStorage("darkModeEnabled") private var darkModeEnabled = false
+    @AppStorage(AppearanceMode.storageKey) private var appearance = AppearanceMode.system
     @AppStorage(DiveReminderService.enabledKey) private var remindersEnabled = true
     @EnvironmentObject private var plannerViewModel: DivePlannerViewModel
     @State private var notificationsDenied = false
@@ -40,6 +40,8 @@ struct SettingsScreen: View {
                         .foregroundStyle(.white)
                         .frame(width: 56, height: 56)
                         .background(Circle().fill(Theme.heroGradient))
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                        .accessibilityHidden(true)
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Diver Account")
@@ -52,13 +54,20 @@ struct SettingsScreen: View {
                     }
                 }
                 .padding(.vertical, 6)
+                .accessibilityElement(children: .combine)
             }
 
-            Section("Appearance") {
-                Toggle(isOn: $darkModeEnabled) {
-                    SettingsRow(icon: "moon.fill", color: Theme.ocean, title: "Dark Mode")
+            Section {
+                SettingsRow(icon: "circle.lefthalf.filled", color: Theme.ocean, title: "Appearance")
+                    .accessibilityHidden(true)
+                Picker("Appearance", selection: $appearance) {
+                    ForEach(AppearanceMode.allCases) { mode in
+                        Text(mode.label).tag(mode)
+                    }
                 }
-                .tint(Theme.ocean)
+                .pickerStyle(.segmented)
+            } footer: {
+                Text("System follows your iPhone. The sea always shows the time of day at the dive site.")
             }
 
             Section {
@@ -100,6 +109,7 @@ struct SettingsScreen: View {
                         Image(systemName: "arrow.up.right")
                             .font(.footnote.weight(.semibold))
                             .foregroundStyle(Theme.textTertiary)
+                            .accessibilityHidden(true)
                     }
                 }
             }

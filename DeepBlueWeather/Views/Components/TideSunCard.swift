@@ -15,6 +15,14 @@ struct TideSunCard: View {
 
     @State private var drawn = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var typeSize
+
+    /// Side by side normally, stacked at accessibility text sizes.
+    private var rowLayout: AnyLayout {
+        typeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: Theme.Spacing.md))
+            : AnyLayout(HStackLayout(spacing: Theme.Spacing.sm))
+    }
 
     private var points: [(date: Date, level: Double)] {
         hours.compactMap { h in
@@ -54,7 +62,7 @@ struct TideSunCard: View {
 
             if let day = today {
                 Divider()
-                HStack(spacing: Theme.Spacing.md) {
+                rowLayout {
                     sunItem(icon: "sunrise.fill", title: "Sunrise", date: day.sunrise, color: Theme.sand)
                     sunItem(icon: "sunset.fill", title: "Sunset", date: day.sunset, color: Theme.coral)
                     sunItem(icon: "sun.max.fill", title: "Daylight", text: daylight(day), color: Theme.kelp)
@@ -129,11 +137,13 @@ struct TideSunCard: View {
             }
         }
         .frame(height: 150)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Tide chart. High and low tide times are listed below.")
         .animation(.spring(response: 0.4, dampingFraction: 1), value: highlight)
     }
 
     private var tideList: some View {
-        HStack(spacing: Theme.Spacing.sm) {
+        rowLayout {
             ForEach(extremes.prefix(4)) { e in
                 VStack(alignment: .leading, spacing: 2) {
                     Label(e.kind == .high ? "High" : "Low", systemImage: e.kind == .high ? "arrow.up" : "arrow.down")
@@ -148,6 +158,7 @@ struct TideSunCard: View {
                         .foregroundStyle(Theme.textSecondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityElement(children: .combine)
             }
         }
     }
@@ -163,6 +174,7 @@ struct TideSunCard: View {
                 .monospacedDigit()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
     }
 
     private func daylight(_ day: SunDay) -> String {
