@@ -175,13 +175,13 @@ struct DivePlanCard: View {
             }
 
             HStack(spacing: Theme.Spacing.sm) {
-                Tag(icon: "arrow.down.to.line", text: "\(plan.depth) m", color: Theme.ocean, inverted: featured)
-                Tag(icon: "timer", text: "\(plan.duration) min", color: Theme.teal, inverted: featured)
+                DiveTag(icon: "arrow.down.to.line", text: "\(plan.depth) m", color: Theme.ocean, inverted: featured)
+                DiveTag(icon: "timer", text: "\(plan.duration) min", color: Theme.teal, inverted: featured)
                 if plan.deepDive {
-                    Tag(icon: "chevron.down.2", text: "Deep", color: Theme.coral, inverted: featured)
+                    DiveTag(icon: "chevron.down.2", text: "Deep", color: Theme.coral, inverted: featured)
                 }
                 if plan.nightDive {
-                    Tag(icon: "moon.stars.fill", text: "Night", color: Theme.sand, inverted: featured)
+                    DiveTag(icon: "moon.stars.fill", text: "Night", color: Theme.sand, inverted: featured)
                 }
                 Spacer(minLength: 0)
             }
@@ -250,7 +250,7 @@ private struct DateBadge: View {
     }
 }
 
-private struct Tag: View {
+struct DiveTag: View {
     let icon: String
     let text: String
     let color: Color
@@ -320,51 +320,56 @@ struct DiveDetailView: View {
     @State private var checked: Set<String> = []
     @State private var showDeleteConfirm = false
     @State private var celebrate = 0
+    @State private var logCelebration = 0
     /// True once the hero has scrolled under the navigation bar.
     @State private var heroCollapsed = false
 
     private var suggestions: [GearSuggestion] { SmartGearEngine.suggestions(for: plan, hour: model.hour) }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
-                hero
-
+        GeometryReader { screen in
+            ScrollView {
                 VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
-                    if plan.log != nil || plan.isPast || (plan.parsedDate ?? .distantFuture) < Date() {
-                        logSection
-                            .appear(delay: 0.06)
-                    }
-                    conditions
-                        .appear(delay: 0.1)
-                    tideAndLight
-                        .appear(delay: 0.14)
-                    smartGear
-                        .appear(delay: 0.18)
-                    if let coordinate = model.coordinate {
-                        map(coordinate)
-                            .appear(delay: 0.24)
-                    }
+                    hero(topInset: screen.safeAreaInsets.top)
 
-                    Button(role: .destructive) {
-                        showDeleteConfirm = true
-                    } label: {
-                        Label("Delete Dive Plan", systemImage: "trash")
-                            .font(.body.weight(.semibold))
-                            .foregroundStyle(Theme.coral)
-                            .frame(maxWidth: .infinity, minHeight: 50)
-                            .background(
-                                RoundedRectangle(cornerRadius: Theme.Radius.md, style: .continuous)
-                                    .fill(Theme.coral.opacity(0.1))
-                            )
+                    VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
+                        if plan.log != nil || plan.isPast || (plan.parsedDate ?? .distantFuture) < Date() {
+                            logSection
+                                .overlay { BubbleBurst(trigger: logCelebration) }
+                                .sensoryFeedback(.success, trigger: logCelebration)
+                                .appear(delay: 0.06)
+                        }
+                        conditions
+                            .appear(delay: 0.1)
+                        tideAndLight
+                            .appear(delay: 0.14)
+                        smartGear
+                            .appear(delay: 0.18)
+                        if let coordinate = model.coordinate {
+                            map(coordinate)
+                                .appear(delay: 0.24)
+                        }
+
+                        Button(role: .destructive) {
+                            showDeleteConfirm = true
+                        } label: {
+                            Label("Delete Dive Plan", systemImage: "trash")
+                                .font(.body.weight(.semibold))
+                                .foregroundStyle(Theme.coral)
+                                .frame(maxWidth: .infinity, minHeight: 50)
+                                .background(
+                                    RoundedRectangle(cornerRadius: Theme.Radius.md, style: .continuous)
+                                        .fill(Theme.coral.opacity(0.1))
+                                )
+                        }
+                        .buttonStyle(PressableStyle())
                     }
-                    .buttonStyle(PressableStyle())
+                    .padding(.horizontal, Theme.Spacing.lg)
+                    .padding(.bottom, Theme.Spacing.xxl)
                 }
-                .padding(.horizontal, Theme.Spacing.lg)
-                .padding(.bottom, Theme.Spacing.xxl)
             }
+            .ignoresSafeArea(edges: .top)
         }
-        .ignoresSafeArea(edges: .top)
         .background(Theme.background.ignoresSafeArea())
         .navigationTitle(heroCollapsed ? plan.location.capitalized : "")
         .navigationBarTitleDisplayMode(.inline)
@@ -401,6 +406,14 @@ struct DiveDetailView: View {
             if let id = plan.id { checked = PlanChecklistStore.checkedIDs(for: id) }
             await model.load(plan: plan)
         }
+        .onChange(of: plan.log != nil) { wasLogged, isLogged in
+            guard isLogged, !wasLogged else { return }
+            // Wait for the log sheet to close so the bubbles are visible.
+            Task {
+                try? await Task.sleep(for: .seconds(0.6))
+                logCelebration += 1
+            }
+        }
         .onChange(of: checked) { _, newValue in
             if let id = plan.id { PlanChecklistStore.save(newValue, for: id) }
         }
@@ -408,49 +421,17 @@ struct DiveDetailView: View {
 
     // MARK: Hero
 
-    private var hero: some View {
-        GeometryReader { geo in
-            let minY = geo.frame(in: .scrollView).minY
-            let stretch = max(0, minY)
-
-            ZStack(alignment: .bottomLeading) {
-                OceanBackground()
-                    .frame(height: geo.size.height + stretch)
-                    .offset(y: -stretch)
-
-                VStack(alignment: .leading, spacing: Theme.Spacing.sm) {
-                    if let countdown = plan.countdownLabel {
-                        Text(countdown.uppercased())
-                            .font(.caption.weight(.bold))
-                            .tracking(1.2)
-                            .foregroundStyle(.white.opacity(0.75))
+    private func hero(topInset: CGFloat) -> some View {
+        DiveHero(plan: plan, hour: model.hour, sunDays: model.sunDays,
+                 isLoading: model.isLoading, outOfRange: model.outOfRange, topInset: topInset)
+            .background {
+                GeometryReader { geo in
+                    // Collapse when the hero has scrolled under the navigation bar.
+                    Color.clear.onChange(of: geo.frame(in: .global).maxY < topInset + 12) { _, collapsed in
+                        withAnimation(.easeInOut(duration: 0.2)) { heroCollapsed = collapsed }
                     }
-                    Text(plan.location.capitalized)
-                        .font(.system(size: 34, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.7)
-                    Text(plan.parsedDate.map { DateFormatter.readableDate.string(from: $0) } ?? plan.date)
-                        .font(.subheadline)
-                        .foregroundStyle(.white.opacity(0.8))
-
-                    HStack(spacing: Theme.Spacing.sm) {
-                        Tag(icon: "arrow.down.to.line", text: "\(plan.depth) m", color: Theme.ocean, inverted: true)
-                        Tag(icon: "timer", text: "\(plan.duration) min", color: Theme.teal, inverted: true)
-                        if plan.nightDive { Tag(icon: "moon.stars.fill", text: "Night", color: Theme.sand, inverted: true) }
-                        if plan.deepDive { Tag(icon: "chevron.down.2", text: "Deep", color: Theme.coral, inverted: true) }
-                    }
-                    .padding(.top, 4)
                 }
-                .padding(Theme.Spacing.xl)
-                .offset(y: -stretch * 0.15)
             }
-            // Collapse when less than ~nav-bar height of the hero is still visible.
-            .onChange(of: minY < -(geo.size.height - 110)) { _, collapsed in
-                withAnimation(.easeInOut(duration: 0.2)) { heroCollapsed = collapsed }
-            }
-        }
-        .frame(height: 300)
     }
 
     /// Round toolbar button: white on the hero, ocean tint once the bar is solid.
@@ -475,6 +456,10 @@ struct DiveDetailView: View {
             VStack(alignment: .leading, spacing: Theme.Spacing.md) {
                 HStack {
                     SectionHeader(title: "Dive log")
+                    Label("Logged", systemImage: "checkmark.seal.fill")
+                        .font(.subheadline.weight(.bold))
+                        .foregroundStyle(Theme.kelp)
+                        .symbolEffect(.bounce, value: logCelebration)
                     Button("Edit") { showLogSheet = true }
                         .font(.subheadline.weight(.semibold))
                 }
@@ -483,6 +468,8 @@ struct DiveDetailView: View {
                         ForEach(1...5, id: \.self) { i in
                             Image(systemName: i <= log.rating ? "star.fill" : "star")
                                 .foregroundStyle(i <= log.rating ? Theme.sand : Theme.textTertiary)
+                                .accessibilityLabel("Rated \(log.rating) of 5")
+                                .accessibilityHidden(i != 1)
                         }
                         Spacer()
                         if let buddy = log.buddy {
@@ -610,13 +597,7 @@ struct DiveDetailView: View {
     @ViewBuilder
     private var conditions: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.md) {
-            HStack {
-                SectionHeader(title: "Conditions at dive time")
-                if let hour = model.hour {
-                    ConditionPill(condition: DiveCondition(waveHeight: hour.waveHeight, windSpeed: hour.windSpeed))
-                        .transition(.scale.combined(with: .opacity))
-                }
-            }
+            SectionHeader(title: "Conditions at dive time")
 
             if model.isLoading {
                 HStack(spacing: Theme.Spacing.sm) {
@@ -625,10 +606,11 @@ struct DiveDetailView: View {
                         .font(.subheadline)
                         .foregroundStyle(Theme.textSecondary)
                 }
-                .frame(maxWidth: .infinity, minHeight: 80)
-                .card()
+                .frame(maxWidth: .infinity, minHeight: 60)
             } else if let hour = model.hour {
-                ConditionsGrid(hour: hour)
+                Divider()
+                FactsStrip(facts: hour.secondaryFacts)
+                Divider()
             } else {
                 Label(model.outOfRange
                       ? "The forecast reaches 7 days ahead. Gear for weather will appear closer to the dive."
@@ -637,10 +619,9 @@ struct DiveDetailView: View {
                     .font(.subheadline)
                     .foregroundStyle(Theme.textSecondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .card()
             }
         }
-        .animation(.spring(response: 0.4, dampingFraction: 1), value: model.isLoading)
+        .animation(Theme.Motion.state, value: model.isLoading)
     }
 
     // MARK: Smart gear
@@ -657,11 +638,20 @@ struct DiveDetailView: View {
                     .foregroundStyle(Theme.textPrimary)
                 Spacer()
                 if !items.isEmpty {
-                    Text("\(done)/\(items.count)")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(Theme.textSecondary)
-                        .monospacedDigit()
-                        .contentTransition(.numericText(value: Double(done)))
+                    if done == items.count {
+                        Label("Kit packed", systemImage: "checkmark.seal.fill")
+                            .font(.subheadline.weight(.bold))
+                            .foregroundStyle(Theme.kelp)
+                            .symbolEffect(.bounce, value: celebrate)
+                            .transition(.scale(scale: 1.6).combined(with: .opacity))
+                    } else {
+                        Text("\(done)/\(items.count)")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(Theme.textSecondary)
+                            .monospacedDigit()
+                            .contentTransition(.numericText(value: Double(done)))
+                            .accessibilityLabel("\(done) of \(items.count) packed")
+                    }
                 }
             }
 
@@ -680,6 +670,7 @@ struct DiveDetailView: View {
                 }
                 .frame(height: 6)
                 .animation(.spring(response: 0.45, dampingFraction: 0.85), value: progress)
+                .accessibilityHidden(true)
             }
 
             if model.isLoading && items.isEmpty {
@@ -761,6 +752,7 @@ private struct GearRow: View {
             .contentShape(Rectangle())
         }
         .buttonStyle(PressableStyle(scale: 0.98))
+        .accessibilityValue(isChecked ? "Packed" : "Not packed")
         .accessibilityIdentifier("gear-row")
         .sensoryFeedback(.selection, trigger: isChecked)
     }

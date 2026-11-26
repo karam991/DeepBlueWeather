@@ -228,3 +228,24 @@ struct FormSection<Content: View>: View {
         .card()
     }
 }
+
+// MARK: - Conditions grid
+
+private struct ConditionsGrid: View {
+    let hour: HourlyWeather
+
+    var body: some View {
+        LazyVGrid(columns: [GridItem(.flexible(), spacing: Theme.Spacing.sm), GridItem(.flexible())], spacing: Theme.Spacing.sm) {
+            MetricTile(icon: "drop.fill", title: "Water", value: hour.waterTemperature.map { String(format: "%.1f °C", $0) } ?? "N/A", color: Theme.ocean)
+            MetricTile(icon: "thermometer.medium", title: "Air", value: String(format: "%.1f °C", hour.airTemperature), color: Theme.coral)
+            MetricTile(icon: "wave.3.forward", title: "Waves", value: hour.waveHeight.map { String(format: "%.2f m", $0) } ?? "N/A", color: Theme.teal)
+            MetricTile(icon: "wind", title: "Wind", value: String(format: "%.1f km/h", hour.windSpeed), color: Theme.kelp)
+            if let rain = hour.precipitationProbability {
+                MetricTile(icon: "cloud.rain.fill", title: "Rain", value: String(format: "%.0f %%", rain), color: Theme.sand)
+            } else {
+                MetricTile(icon: "humidity.fill", title: "Humidity", value: String(format: "%.0f %%", hour.humidity), color: Theme.sand)
+            }
+            MetricTile(icon: "eye.fill", title: "Visibility", value: hour.visibilityLabel, color: Theme.ocean)
+        }
+    }
+}

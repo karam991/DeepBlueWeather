@@ -222,8 +222,8 @@ static float swellHeight(float2 p, float time, float height, float chop, int oct
     float2 size = bounds.zw;
     float2 pt = position - bounds.xy;
     Light l = makeLight(sunElev, cloud);
-    // Low and left of centre, clear of the weather row and the wave label
-    float3 sunDir = normalize(float3(-0.06, l.night > 0.5 ? 0.085 : max(sunElev * 0.095, 0.012), 1.0));
+    // Low and right of centre, clear of the text above the waterline
+    float3 sunDir = normalize(float3(0.13, l.night > 0.5 ? 0.085 : max(sunElev * 0.095, 0.012), 1.0));
 
     float amp = max(waveHeight * 0.5 * pointsPerMetre, 1.2);
     float x = pt.x;
@@ -239,10 +239,10 @@ static float swellHeight(float2 p, float time, float height, float chop, int oct
 
     // Water column: red light is absorbed first, so colour shifts to blue then black
     float d = clamp(depth / max(size.y - surfaceY, 1.0), 0.0, 1.0);
-    float3 shallow = mix(float3(0.012, 0.075, 0.13), float3(0.02, 0.43, 0.52), l.day);
+    float3 shallow = mix(float3(0.030, 0.140, 0.230), float3(0.02, 0.43, 0.52), l.day);
     shallow = mix(shallow, float3(0.10, 0.20, 0.30), l.gold * 0.6);
     shallow = mix(shallow, shallow * float3(0.55, 0.68, 0.66), cloud);
-    float3 mid = mix(float3(0.006, 0.032, 0.07), float3(0.012, 0.17, 0.31), l.day);
+    float3 mid = mix(float3(0.012, 0.060, 0.120), float3(0.012, 0.17, 0.31), l.day);
     float3 abyssCol = float3(0.006, 0.028, 0.058);
     float3 water = mix(shallow, mid, smoothstep(0.0, 0.48, d));
     water = mix(water, abyssCol, smoothstep(0.38, 1.0, d));

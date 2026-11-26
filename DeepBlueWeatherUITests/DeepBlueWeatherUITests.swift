@@ -119,14 +119,22 @@ final class DeepBlueWeatherUITests: XCTestCase {
         sleep(1)
         app.navigationBars.buttons["Save"].tap()
 
-        let card = app.buttons.containing(NSPredicate(format: "label CONTAINS[c] 'smart gear'")).firstMatch
+        // Only open (and later delete) a card that matches the night dive planned above.
+        let card = app.buttons.matching(NSPredicate(
+            format: "label CONTAINS[c] 'smart gear' AND label CONTAINS[c] 'Nice' AND label CONTAINS[c] 'Night'")).firstMatch
         XCTAssertTrue(card.waitForExistence(timeout: 10))
         sleep(2)
+        snap("dives-next")
         card.tap()
         XCTAssertTrue(app.staticTexts["Conditions at dive time"].waitForExistence(timeout: 10))
-        sleep(3)
+        sleep(4)
+        snap("dive-detail")
+        scroll(to: app.staticTexts["Tide & daylight"], in: app)
+        sleep(1)
+        snap("dive-tide")
         scroll(to: app.staticTexts["Smart gear for this dive"], in: app)
         sleep(1)
+        snap("smart-gear")
         let rows = app.buttons.matching(identifier: "gear-row")
         let count = rows.count
         for index in 0..<count {
@@ -134,6 +142,8 @@ final class DeepBlueWeatherUITests: XCTestCase {
             sleep(1)
         }
         sleep(2) // bubble burst when everything is packed
+        XCTAssertTrue(app.staticTexts["Kit packed"].exists || app.otherElements["Kit packed"].exists)
+        snap("kit-packed")
         mark("dive-end")
 
         // Clean up: delete the demo dive so the user's data stays unchanged.

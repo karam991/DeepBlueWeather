@@ -55,6 +55,7 @@
 		EAFD228F3490F9AABDF61E7F /* SeaState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DE4084A8EF10E4B06DB9EE /* SeaState.swift */; };
 		215C5A96A0F91A378A558021 /* ConditionsForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 250F6D25A3FF2FD8399B4D88 /* ConditionsForecast.swift */; };
 		7E2B77D98D645DE0AF85D789 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A6D8A9F76888DE68B4A328 /* AppearanceMode.swift */; };
+		B1ACB5143FEE4F8E47DF0FD4 /* DiveHero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347AF139A3D39CCDD41D84F /* DiveHero.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,7 @@
 		44DE4084A8EF10E4B06DB9EE /* SeaState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeaState.swift; sourceTree = "<group>"; };
 		250F6D25A3FF2FD8399B4D88 /* ConditionsForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionsForecast.swift; sourceTree = "<group>"; };
 		B7A6D8A9F76888DE68B4A328 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
+		3347AF139A3D39CCDD41D84F /* DiveHero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveHero.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +292,7 @@
 				1ABD586DB656FFF76D44C4C9 /* FactsStrip.swift */,
 				09B6B2B05343F2A3FABD7DAF /* HourlyForecastChart.swift */,
 				BB5261FB2159E310A97E0C24 /* ConditionsHero.swift */,
+				3347AF139A3D39CCDD41D84F /* DiveHero.swift */,
 				633FBE2F2B8CC2B100289E86 /* WeatherInfoView.swift */,
 				634028492BDB42F100AA4E5E /* Extensions.swift */,
 				633FBE332B8CC2DB00289E86 /* BackgroundImageView.swift */,
@@ -553,6 +556,7 @@
 				D730C7D87745FCB587F8FF46 /* FactsStrip.swift in Sources */,
 				D0A863E0613CE09171687464 /* HourlyForecastChart.swift in Sources */,
 				02BF0C9F1F52807E94D20B2F /* ConditionsHero.swift in Sources */,
+				B1ACB5143FEE4F8E47DF0FD4 /* DiveHero.swift in Sources */,
 				633FBE302B8CC2B100289E86 /* WeatherInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
