@@ -40,6 +40,11 @@ extension DivePlan {
             ?? DateFormatter.iso8601Full.date(from: date)
     }
 
+    /// Full date and time, or the stored text if it can't be parsed.
+    var dateText: String {
+        parsedDate.map { DateFormatter.readableDate.string(from: $0) } ?? date
+    }
+
     /// Calendar days from today to the dive.
     var daysAway: Int? {
         guard let parsedDate else { return nil }

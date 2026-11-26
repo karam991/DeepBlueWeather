@@ -217,9 +217,14 @@ private struct DivePlanCard: View {
                     Text(plan.location.capitalized)
                         .font(.headline)
                         .foregroundStyle(Theme.textPrimary)
-                    Text(plan.countdownLabel ?? plan.date)
+                    Text(plan.dateText)
                         .font(.subheadline)
                         .foregroundStyle(Theme.textSecondary)
+                    if let countdown = plan.countdownLabel {
+                        Text(countdown)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(Theme.teal)
+                    }
                 }
 
                 Spacer(minLength: 0)
@@ -250,9 +255,11 @@ private struct PastDiveRow: View {
                 Text(plan.location.capitalized)
                     .font(.body.weight(.semibold))
                     .foregroundStyle(Theme.textPrimary)
-                Text("\(plan.depth) m · \(plan.duration) min")
+                Text(plan.dateText)
                     .font(.subheadline)
                     .foregroundStyle(Theme.textSecondary)
+                PlanTags(plan: plan)
+                    .padding(.vertical, 2)
                 if let log = plan.log {
                     HStack(spacing: 2) {
                         ForEach(1...5, id: \.self) { i in

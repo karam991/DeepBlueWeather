@@ -18,6 +18,8 @@ final class DeepBlueWeatherUITests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+        // The launch tests rotate the simulator; these flows expect portrait.
+        XCUIDevice.shared.orientation = .portrait
     }
 
     private func makeApp(_ extraArguments: [String] = []) -> XCUIApplication {
