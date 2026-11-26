@@ -6,24 +6,39 @@ Built with **SwiftUI**, **MVVM**, **Firebase** (Auth + Firestore), **WidgetKit**
 
 ## See it in action
 
-| Plan a dive & pack smart gear | Live conditions & tides | Animated ocean design |
+| Plan a dive & pack smart gear | The sea follows the forecast | Living ocean |
 |:---:|:---:|:---:|
-| <img src="screenshots/demo-dive.gif" width="250" alt="Planning a night dive, opening it and checking off the smart gear list"> | <img src="screenshots/demo-conditions.gif" width="250" alt="Searching Nice, switching hours and scrolling to the tide chart"> | <img src="screenshots/demo-ocean.gif" width="250" alt="Login screen with animated waves and bubbles"> |
+| <img src="screenshots/demo-dive.gif" width="250" alt="Planning a night dive, opening it and checking off the smart gear list"> | <img src="screenshots/demo-conditions.gif" width="250" alt="Searching Nice and dragging the 24-hour chart while the sea changes from night to day"> | <img src="screenshots/demo-ocean.gif" width="250" alt="Login screen with a moving sea lit by the time of day"> |
 
 ## Screenshots
 
-| Conditions | Tide & daylight | Dive planner | Dive detail |
+| Conditions, day | Conditions, night | Tide & daylight | Dive planner |
 |:---:|:---:|:---:|:---:|
-| ![Conditions](screenshots/conditions.png) | ![Tides](screenshots/tides.png) | ![Dives](screenshots/dives.png) | ![Dive detail](screenshots/dive-detail.png) |
+| ![Conditions in daylight](screenshots/conditions.png) | ![Conditions at night](screenshots/conditions-night.png) | ![Tides](screenshots/tides.png) | ![Dives](screenshots/dives.png) |
 
-| Tide at dive time | Smart gear | Checklist | Login |
+| Dive detail | Smart gear, packed | Checklist | Login |
 |:---:|:---:|:---:|:---:|
-| ![Tide at dive time](screenshots/dive-tide.png) | ![Smart gear](screenshots/smart-gear.png) | ![Checklist](screenshots/checklist.png) | ![Login](screenshots/login.png) |
+| ![Dive detail](screenshots/dive-detail.png) | ![Smart gear](screenshots/smart-gear.png) | ![Checklist](screenshots/checklist.png) | ![Login](screenshots/login.png) |
+
+## The living ocean
+
+The sea in the app is drawn in real time by two Metal shaders, and every part of it comes from the forecast:
+
+| Data | What you see |
+|---|---|
+| Wave height | Swell height and whitecaps |
+| Wind speed | Surface chop |
+| Time against sunrise and sunset | Sky and water colour, sun, moon and stars |
+| Rain probability | Cloud cover |
+
+It appears on only three screens (Conditions, Dive detail and Login), is never drawn without data, and holds still with Reduce Motion or Low Power Mode. The rules are in the [design brief](design/DESIGN_BRIEF.md).
 
 ## Features
 
 ### Conditions
-- Search any location for hourly **water temperature, air temperature, waves, wind, rain chance and visibility**
+- Search any location for hourly **water temperature, air temperature, waves, wind, rain chance, UV and air visibility**
+- Drag one **24-hour chart** (waves or water temperature) and the sea changes with it
+- The matching **exposure suit** for the water temperature
 - A **dive rating** (Excellent → Poor) from wave height and wind
 - **Best dive window**: the calmest daylight hour in the next 24 hours
 - **Tide chart** (Swift Charts) with high/low times, plus sunrise, sunset and daylight hours
@@ -58,8 +73,10 @@ After a dive: actual depth and bottom time, water temperature, visibility, a 1�
 - A **"Next Dive" widget** (small, medium, Lock Screen) with a countdown, fed through an App Group
 
 ### Design
-- Custom design system with light and dark colors, an animated ocean background, spring animations, zoom transitions and haptics
-- Respects **Reduce Motion**
+- Custom design system with a living-ocean signature, spring animations, zoom transitions and haptics
+- Appearance: **System, Light or Dark**
+- Small moments of delight: a glint across the water in excellent conditions, a checklist that fills with water, "Kit packed" and "Logged" seals
+- Dynamic Type for large numbers, VoiceOver labels, and **Reduce Motion** support
 
 ## From sketch to app
 
@@ -73,7 +90,7 @@ The app started as pencil wireframes. The first sketch already listed tide, wave
 
 | Area | Technology |
 |---|---|
-| UI | SwiftUI, Swift Charts, MapKit, PhotosUI |
+| UI | SwiftUI, Metal shaders, Swift Charts, MapKit, PhotosUI |
 | Architecture | MVVM, `ObservableObject` view models, async/await |
 | Backend | Firebase Auth, Cloud Firestore (real-time listener) |
 | Data | Open-Meteo Forecast + Marine API (no API key), CLGeocoder |
@@ -90,14 +107,14 @@ DeepBlueWeather/
 │                    LoginViewModel, DiveReminderService
 └── Views/
     ├── Screens/     Login, Home (tabs), DivePlanner + DiveDetail, DiveLogSheet, Checklist, Settings
-    └── Components/  Design system (StyleConstants), motion toolkit, WeatherInfoView, TideSunCard
+    └── Components/  Design system (StyleConstants), sea views + Ocean.metal, heroes, charts, WeatherInfoView
 DeepBlueWidget/      WidgetKit extension ("Next Dive")
 firestore.rules      Security rules: users can only access their own dive plans
 ```
 
 ## Setup
 
-1. Clone the repository and open `DeepBlueWeather.xcodeproj` in Xcode 16 or newer (iOS 17+).
+1. Clone the repository and open `DeepBlueWeather.xcodeproj` in Xcode 16 or newer (iOS 17+). On Xcode 26, install the Metal compiler once with `xcodebuild -downloadComponent MetalToolchain`.
 2. Create a Firebase project with **Email/Password Auth** and **Cloud Firestore**.
 3. Add your own `GoogleService-Info.plist` to `DeepBlueWeather/` (it is git-ignored).
 4. Deploy the security rules from [`firestore.rules`](firestore.rules): paste them in *Firebase Console → Firestore → Rules*, or run `firebase deploy --only firestore:rules`.
@@ -111,7 +128,7 @@ firestore.rules      Security rules: users can only access their own dive plans
 
 ## Testing
 
-An automated UI test (XCUITest) walks through every screen: search, dive detail, smart gear, checklist and settings. The screenshots in this README were generated by it.
+Automated UI tests (XCUITest) walk through the app: search, chart dragging, planning a dive, smart gear, checklist, settings and login. They also capture the screenshots for this README.
 
 ## Author
 

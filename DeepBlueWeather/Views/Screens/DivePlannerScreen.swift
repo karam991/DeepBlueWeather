@@ -609,12 +609,13 @@ struct DiveDetailView: View {
 
     @ViewBuilder
     private var tideAndLight: some View {
-        if !model.hours.isEmpty {
+        let window = model.hours.filter { h in
+            guard let d = h.date, let target = plan.parsedDate else { return false }
+            return abs(d.timeIntervalSince(target)) <= 12 * 3600
+        }
+        // Nothing to show for dives outside the forecast.
+        if !window.isEmpty {
             let summary = TideLightSummary(plan: plan, hours: model.hours, sunDays: model.sunDays)
-            let window = model.hours.filter { h in
-                guard let d = h.date, let target = plan.parsedDate else { return false }
-                return abs(d.timeIntervalSince(target)) <= 12 * 3600
-            }
             VStack(alignment: .leading, spacing: Theme.Spacing.md) {
                 SectionHeader(title: "Tide & daylight", trailing: summary.tideText)
                 if let warning = summary.lightWarning {
@@ -625,9 +626,7 @@ struct DiveDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(RoundedRectangle(cornerRadius: Theme.Radius.md, style: .continuous).fill(Theme.coral.opacity(0.1)))
                 }
-                if !window.isEmpty {
-                    TideSunCard(hours: window, sunDays: model.sunDays, highlight: plan.parsedDate)
-                }
+                TideSunCard(hours: window, sunDays: model.sunDays, highlight: plan.parsedDate)
             }
         }
     }
@@ -690,7 +689,9 @@ struct DiveDetailView: View {
                 Divider()
             } else {
                 Label(model.outOfRange
-                      ? "The forecast reaches 7 days ahead. Gear for weather will appear closer to the dive."
+                      ? (plan.isPast
+                         ? "The forecast no longer covers this date."
+                         : "The forecast reaches 7 days ahead. Gear for weather will appear closer to the dive.")
                       : "No forecast available for this location.",
                       systemImage: "calendar.badge.clock")
                     .font(.subheadline)

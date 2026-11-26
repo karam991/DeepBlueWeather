@@ -85,6 +85,16 @@ struct SeaSurfaceView: View, Animatable {
         // The wave march is costly and fails to draw on very tall areas (large text,
         // full screen), so the sea has a height limit with deep water below it.
         .frame(maxHeight: Theme.Hero.maxSeaHeight)
+        // When the limit applies, blend the cut edge into the deep water.
+        .overlay {
+            GeometryReader { geometry in
+                if geometry.size.height >= Theme.Hero.maxSeaHeight {
+                    LinearGradient(colors: [.clear, Theme.deepCard], startPoint: .top, endPoint: .bottom)
+                        .frame(height: 130)
+                        .frame(maxHeight: .infinity, alignment: .bottom)
+                }
+            }
+        }
         .frame(maxHeight: .infinity, alignment: .top)
         .background(Theme.deepCard)
     }

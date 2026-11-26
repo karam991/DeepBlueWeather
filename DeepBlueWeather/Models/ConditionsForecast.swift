@@ -59,7 +59,8 @@ extension HourlyWeather {
     var suit: ExposureSuit? { waterTemperature.map { ExposureSuit(water: $0) } }
 
     var seaSummary: String {
-        let wind = String(format: "%.0f km/h wind", windSpeed)
+        // Word joiners keep "km/h" on one line at large text sizes.
+        let wind = String(format: "%.0f km\u{2060}/\u{2060}h wind", windSpeed)
         guard let waveHeight else { return wind }
         return String(format: "%.1f m waves", waveHeight) + " · " + wind
     }

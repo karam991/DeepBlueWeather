@@ -177,6 +177,10 @@ final class DeepBlueWeatherUITests: XCTestCase {
         search.typeText("Nice, France\n")
         XCTAssertTrue(app.staticTexts["Hourly forecast"].waitForExistence(timeout: 20))
         sleep(2)
+        snap("conditions-now")
+        // The best dive window is in daylight, so the hero shows the day sea.
+        app.buttons["best-window"].tap()
+        sleep(2)
         snap("conditions")
         scroll(to: app.staticTexts["Tide & daylight"], in: app)
         sleep(2)

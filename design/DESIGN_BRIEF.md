@@ -1,6 +1,8 @@
 # DeepBlueWeather: "Living ocean" design brief
 
-Status: **proposal, waiting for approval.** Based on explorations A (living ocean) and C (above / below).
+Status: **approved and built** on `design/living-ocean`. Based on explorations A (living ocean) and C (above / below). Before and after images are in [`before-after/`](before-after/).
+
+Still open: measuring the frame rate on a real iPhone. The surface sea is limited to 580 points high, because the shader does not draw on very tall areas.
 
 ## 1. Signature element
 A sea drawn from the forecast. Nothing in it is decorative:
@@ -79,6 +81,6 @@ Big numbers use `@ScaledMetric`. Heroes have minimum heights, and rows stack ver
 
 Each step also covers Dynamic Type and VoiceOver for that screen.
 
-## 9. Needs your approval
-- **UI tests:** `testDemoConditions` taps the hour tiles, which step 1 removes. It would drag the chart instead. Existing section titles and other identifiers stay.
-- **ViewModel:** dive totals and upcoming/past filtering are calculated in the Dives view today. Moving them into `DivePlannerViewModel` would restore MVVM. No other ViewModel, service or Firebase change is planned.
+## 9. Approved changes
+- `testDemoConditions` drags the chart instead of tapping the removed hour tiles.
+- Dive totals and upcoming/past filtering moved into `DivePlannerViewModel`. No other ViewModel, service or Firebase change.
