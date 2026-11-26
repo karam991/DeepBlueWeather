@@ -36,6 +36,9 @@ enum Theme {
     static let textSecondary = Color(light: 0x5B6779, dark: 0x9AA7BA)
     static let textTertiary = Color(light: 0x8C97A8, dark: 0x6B788C)
 
+    /// Flat deep blue for the featured card, the same in light and dark.
+    static let deepCard = Color(hex: 0x062A4D)
+
     static let heroGradient = LinearGradient(
         colors: [Color(hex: 0x04213F), Color(hex: 0x0A4D8C), Color(hex: 0x0F8C9A)],
         startPoint: .topLeading,
@@ -84,6 +87,8 @@ enum Theme {
         /// Minimum heights; heroes grow with Dynamic Type.
         static let surfaceMinHeight: CGFloat = 490
         static let sectionMinHeight: CGFloat = 420
+        /// Tallest area the surface shader is asked to draw.
+        static let maxSeaHeight: CGFloat = 580
     }
 
     enum Motion {

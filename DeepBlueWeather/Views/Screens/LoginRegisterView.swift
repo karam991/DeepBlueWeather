@@ -21,7 +21,16 @@ struct LoginRegisterView: View {
 
     var body: some View {
         ZStack {
-            OceanBackground(waveOpacity: 0.07).ignoresSafeArea()
+            // The sea fills the top of the screen and fades into deep water behind the form.
+            VStack(spacing: 0) {
+                SeaSurfaceView(sea: sea, horizon: 0.5)
+                    .frame(height: Theme.Hero.surfaceMinHeight)
+                    .overlay(LinearGradient(colors: [Theme.OnSea.scrimTop, .clear, Theme.deepCard],
+                                            startPoint: .top, endPoint: .bottom))
+                Spacer(minLength: 0)
+            }
+            .background(Theme.deepCard)
+            .ignoresSafeArea()
 
             ScrollView {
                 VStack(spacing: Theme.Spacing.xxl) {
@@ -34,7 +43,7 @@ struct LoginRegisterView: View {
 
                     Text("Marine data by Open-Meteo")
                         .font(.footnote)
-                        .foregroundStyle(.white.opacity(0.55))
+                        .foregroundStyle(Theme.OnSea.secondary)
                 }
                 .padding(.horizontal, Theme.Spacing.xl)
                 .padding(.bottom, Theme.Spacing.xl)
@@ -45,14 +54,14 @@ struct LoginRegisterView: View {
 
     // MARK: Brand
 
-    @State private var float = false
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    /// Lit by the device clock: there is no forecast before signing in.
+    @State private var sea = SeaState.ambient()
+    @ScaledMetric(relativeTo: .largeTitle) private var titleSize: CGFloat = 44
 
     private var brand: some View {
         VStack(spacing: Theme.Spacing.md) {
             Image(systemName: "water.waves")
                 .font(.system(size: 34, weight: .semibold))
-                .foregroundStyle(.white)
                 .frame(width: 72, height: 72)
                 .background(
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
@@ -62,23 +71,20 @@ struct LoginRegisterView: View {
                                 .strokeBorder(.white.opacity(0.25), lineWidth: 1)
                         )
                 )
-                .symbolEffect(.variableColor.iterative, options: .repeating, isActive: !reduceMotion && !MotionFlags.ambientPaused)
-                .offset(y: float ? -6 : 0)
-                .onAppear {
-                    guard !reduceMotion, !MotionFlags.ambientPaused else { return }
-                    withAnimation(.easeInOut(duration: 2.6).repeatForever(autoreverses: true)) { float = true }
-                }
+                .accessibilityHidden(true)
 
             Text("DeepBlue")
-                .font(.system(size: 40, weight: .bold, design: .rounded))
+                .font(.system(size: min(titleSize, 72), weight: .bold, design: .rounded))
                 .tracking(-0.8)
-                .foregroundStyle(.white)
+                .accessibilityAddTraits(.isHeader)
 
             Text("Dive conditions, plans and checklists\n— all in one place.")
-                .font(.subheadline)
+                .font(.subheadline.weight(.medium))
                 .multilineTextAlignment(.center)
-                .foregroundStyle(.white.opacity(0.75))
+                .foregroundStyle(Theme.OnSea.secondary)
         }
+        .foregroundStyle(Theme.OnSea.primary)
+        .shadow(color: .black.opacity(0.4), radius: 6, y: 1)
     }
 
     // MARK: Form
@@ -246,7 +252,7 @@ private struct InputField<Content: View>: View {
                 .foregroundStyle(Theme.textPrimary)
         }
         .padding(.horizontal, Theme.Spacing.lg)
-        .frame(height: 52)
+        .frame(minHeight: 52)
         .background(
             RoundedRectangle(cornerRadius: Theme.Radius.md, style: .continuous)
                 .fill(Theme.surfaceRaised)

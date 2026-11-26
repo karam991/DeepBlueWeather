@@ -82,6 +82,11 @@ struct SeaSurfaceView: View, Animatable {
                 .float(sea.cloud)
             ))
         }
+        // The wave march is costly and fails to draw on very tall areas (large text,
+        // full screen), so the sea has a height limit with deep water below it.
+        .frame(maxHeight: Theme.Hero.maxSeaHeight)
+        .frame(maxHeight: .infinity, alignment: .top)
+        .background(Theme.deepCard)
     }
 }
 

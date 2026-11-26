@@ -40,11 +40,22 @@ extension DivePlan {
             ?? DateFormatter.iso8601Full.date(from: date)
     }
 
-    /// "Today", "Tomorrow", "In 4 days", "3 days ago".
-    var countdownLabel: String? {
+    /// Calendar days from today to the dive.
+    var daysAway: Int? {
         guard let parsedDate else { return nil }
         let cal = Calendar.current
-        let days = cal.dateComponents([.day], from: cal.startOfDay(for: Date()), to: cal.startOfDay(for: parsedDate)).day ?? 0
+        return cal.dateComponents([.day], from: cal.startOfDay(for: Date()), to: cal.startOfDay(for: parsedDate)).day
+    }
+
+    /// The large countdown on the featured card: ("4", "days to go") or ("Today", nil).
+    var countdownHeadline: (value: String, unit: String?) {
+        guard let days = daysAway, days >= 2 else { return (countdownLabel ?? "Soon", nil) }
+        return ("\(days)", "days to go")
+    }
+
+    /// "Today", "Tomorrow", "In 4 days", "3 days ago".
+    var countdownLabel: String? {
+        guard let days = daysAway else { return nil }
         switch days {
         case 0: return "Today"
         case 1: return "Tomorrow"

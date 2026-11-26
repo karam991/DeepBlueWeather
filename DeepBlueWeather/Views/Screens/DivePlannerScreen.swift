@@ -13,52 +13,45 @@ struct DivePlannerScreen: View {
     @Namespace private var zoom
     @State private var planToDelete: DivePlan?
 
-    private var sortedPlans: [DivePlan] {
-        viewModel.divePlans.sorted { ($0.parsedDate ?? .distantFuture) < ($1.parsedDate ?? .distantFuture) }
-    }
-    private var upcoming: [DivePlan] { sortedPlans.filter { !$0.isPast && $0.log == nil } }
-    private var past: [DivePlan] { sortedPlans.filter { $0.isPast || $0.log != nil }.reversed() }
-
-    private var totalMinutes: Int { viewModel.divePlans.reduce(0) { $0 + $1.duration } }
-    private var maxDepth: Int { viewModel.divePlans.map(\.depth).max() ?? 0 }
-
     var body: some View {
         ScrollView {
             if viewModel.divePlans.isEmpty {
                 emptyState
                     .padding(.top, 100)
             } else {
-                LazyVStack(alignment: .leading, spacing: Theme.Spacing.md) {
-                    HStack(spacing: Theme.Spacing.sm) {
-                        MetricTile(icon: "list.number", title: "Dives", value: "\(viewModel.divePlans.count)", color: Theme.ocean)
-                        MetricTile(icon: "timer", title: "Bottom", value: "\(totalMinutes) min", color: Theme.teal)
-                        MetricTile(icon: "arrow.down.to.line", title: "Max", value: "\(maxDepth) m", color: Theme.coral)
-                    }
-                    .appear()
+                let upcoming = viewModel.upcomingPlans
+                let past = viewModel.pastPlans
 
+                LazyVStack(alignment: .leading, spacing: Theme.Spacing.md) {
                     if let next = upcoming.first {
-                        SectionHeader(title: "Next dive", trailing: next.countdownLabel)
-                            .padding(.top, Theme.Spacing.sm)
+                        SectionHeader(title: "Next dive")
+                            .appear()
+                        planLink(next, style: .featured)
                             .appear(delay: 0.05)
-                        planLink(next, featured: true)
-                            .appear(delay: 0.1)
                     }
+
+                    Divider()
+                    FactsStrip(facts: viewModel.totals)
+                        .appear(delay: 0.1)
+                    Divider()
 
                     if upcoming.count > 1 {
                         SectionHeader(title: "Upcoming")
                             .padding(.top, Theme.Spacing.sm)
                         ForEach(Array(upcoming.dropFirst().enumerated()), id: \.element.id) { index, plan in
-                            planLink(plan)
+                            planLink(plan, style: .card)
                                 .appear(delay: 0.12 + Double(index) * 0.05)
                         }
                     }
 
                     if !past.isEmpty {
-                        SectionHeader(title: "Logged")
+                        SectionHeader(title: "Past dives")
                             .padding(.top, Theme.Spacing.sm)
-                        ForEach(past, id: \.id) { plan in
-                            planLink(plan)
-                                .opacity(0.75)
+                        VStack(spacing: 0) {
+                            ForEach(past, id: \.id) { plan in
+                                planLink(plan, style: .quiet)
+                                if plan.id != past.last?.id { Divider() }
+                            }
                         }
                     }
                 }
@@ -116,15 +109,22 @@ struct DivePlannerScreen: View {
         .appear()
     }
 
+    private enum CardStyle { case featured, card, quiet }
+
     @ViewBuilder
-    private func planLink(_ plan: DivePlan, featured: Bool = false) -> some View {
+    private func planLink(_ plan: DivePlan, style: CardStyle) -> some View {
         if let id = plan.id {
             NavigationLink(value: id) {
-                DivePlanCard(plan: plan, featured: featured)
-                    .zoomSource(id: id, in: zoom)
+                Group {
+                    switch style {
+                    case .featured: NextDiveCard(plan: plan)
+                    case .card: DivePlanCard(plan: plan)
+                    case .quiet: PastDiveRow(plan: plan)
+                    }
+                }
+                .zoomSource(id: id, in: zoom)
             }
             .buttonStyle(PressableStyle())
-            .scrollReveal()
             .contextMenu {
                 Button(role: .destructive) {
                     planToDelete = plan
@@ -145,108 +145,185 @@ struct DivePlannerScreen: View {
     }
 }
 
-// MARK: - Plan card
+// MARK: - Cards
 
-struct DivePlanCard: View {
-    var plan: DivePlan
-    var featured = false
+/// The next dive: a large countdown on flat deep blue. No sea here by design.
+private struct NextDiveCard: View {
+    let plan: DivePlan
+    @ScaledMetric(relativeTo: .largeTitle) private var numberSize = Theme.NumberSize.featured
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
-            HStack(alignment: .top, spacing: Theme.Spacing.md) {
-                DateBadge(date: plan.parsedDate, inverted: featured)
+        let countdown = plan.countdownHeadline
 
-                VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: Theme.Spacing.md) {
+            HStack(alignment: .firstTextBaseline, spacing: Theme.Spacing.sm) {
+                Text(countdown.value)
+                    .font(.system(size: min(numberSize, 90), weight: .semibold, design: .rounded))
+                    .foregroundStyle(Theme.OnSea.highlight)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                if let unit = countdown.unit {
+                    Text(unit)
+                        .font(.headline)
+                        .foregroundStyle(Theme.OnSea.secondary)
+                }
+                Spacer(minLength: 0)
+                Image(systemName: "chevron.right")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.OnSea.secondary)
+                    .accessibilityHidden(true)
+            }
+
+            VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
+                Text(plan.location.capitalized)
+                    .font(.title2.weight(.bold))
+                Text(plan.parsedDate.map { DateFormatter.readableDate.string(from: $0) } ?? plan.date)
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.OnSea.secondary)
+            }
+
+            PlanTags(plan: plan, inverted: true)
+
+            Label("Tap to see your smart gear list", systemImage: "sparkles")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(Theme.OnSea.secondary)
+        }
+        .foregroundStyle(Theme.OnSea.primary)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(Theme.Spacing.xl)
+        .background {
+            RoundedRectangle(cornerRadius: Theme.Radius.xl, style: .continuous)
+                .fill(Theme.deepCard)
+                .overlay(
+                    RoundedRectangle(cornerRadius: Theme.Radius.xl, style: .continuous)
+                        .strokeBorder(.white.opacity(0.1), lineWidth: 1)
+                )
+        }
+        .contentShape(RoundedRectangle(cornerRadius: Theme.Radius.xl, style: .continuous))
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// A later upcoming dive.
+private struct DivePlanCard: View {
+    let plan: DivePlan
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Theme.Spacing.md) {
+            HStack(alignment: .top, spacing: Theme.Spacing.md) {
+                DateBadge(date: plan.parsedDate)
+
+                VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
                     Text(plan.location.capitalized)
                         .font(.headline)
-                        .foregroundStyle(featured ? .white : Theme.textPrimary)
-                        .lineLimit(1)
-                    Text(plan.parsedDate.map { DateFormatter.readableDate.string(from: $0) } ?? plan.date)
+                        .foregroundStyle(Theme.textPrimary)
+                    Text(plan.countdownLabel ?? plan.date)
                         .font(.subheadline)
-                        .foregroundStyle(featured ? .white.opacity(0.75) : Theme.textSecondary)
-                        .lineLimit(1)
+                        .foregroundStyle(Theme.textSecondary)
                 }
 
                 Spacer(minLength: 0)
 
                 Image(systemName: "chevron.right")
                     .font(.footnote.weight(.semibold))
-                    .foregroundStyle(featured ? .white.opacity(0.6) : Theme.textTertiary)
+                    .foregroundStyle(Theme.textTertiary)
+                    .accessibilityHidden(true)
             }
-
-            HStack(spacing: Theme.Spacing.sm) {
-                DiveTag(icon: "arrow.down.to.line", text: "\(plan.depth) m", color: Theme.ocean, inverted: featured)
-                DiveTag(icon: "timer", text: "\(plan.duration) min", color: Theme.teal, inverted: featured)
-                if plan.deepDive {
-                    DiveTag(icon: "chevron.down.2", text: "Deep", color: Theme.coral, inverted: featured)
-                }
-                if plan.nightDive {
-                    DiveTag(icon: "moon.stars.fill", text: "Night", color: Theme.sand, inverted: featured)
-                }
-                Spacer(minLength: 0)
-            }
-
-            if let log = plan.log {
-                HStack(spacing: 2) {
-                    ForEach(1...5, id: \.self) { i in
-                        Image(systemName: i <= log.rating ? "star.fill" : "star")
-                            .font(.caption)
-                            .foregroundStyle(i <= log.rating ? Theme.sand : Theme.textTertiary)
-                    }
-                    Text("· Logged")
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(Theme.textSecondary)
-                }
-            } else if plan.isPast {
-                Label("Tap to log this dive", systemImage: "book.closed")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(Theme.teal)
-            }
-
-            if featured {
-                Label("Tap to see your smart gear list", systemImage: "sparkles")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.white.opacity(0.85))
-            }
+            PlanTags(plan: plan)
         }
-        .padding(Theme.Spacing.lg)
-        .background {
-            if featured {
-                OceanBackground(showBubbles: true, waveOpacity: 0.07)
-                    .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.lg, style: .continuous))
-                    .shadow(color: Theme.ocean.opacity(0.35), radius: 18, x: 0, y: 10)
-            } else {
-                RoundedRectangle(cornerRadius: Theme.Radius.lg, style: .continuous)
-                    .fill(Theme.surface)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: Theme.Radius.lg, style: .continuous)
-                            .strokeBorder(Theme.stroke, lineWidth: 1)
-                    )
-                    .shadow(color: .black.opacity(0.04), radius: 12, x: 0, y: 4)
-            }
-        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .card()
         .contentShape(RoundedRectangle(cornerRadius: Theme.Radius.lg, style: .continuous))
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// A past dive: plain content, no card.
+private struct PastDiveRow: View {
+    let plan: DivePlan
+
+    var body: some View {
+        HStack(spacing: Theme.Spacing.md) {
+            DateBadge(date: plan.parsedDate)
+
+            VStack(alignment: .leading, spacing: Theme.Spacing.xs) {
+                Text(plan.location.capitalized)
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(Theme.textPrimary)
+                Text("\(plan.depth) m · \(plan.duration) min")
+                    .font(.subheadline)
+                    .foregroundStyle(Theme.textSecondary)
+                if let log = plan.log {
+                    HStack(spacing: 2) {
+                        ForEach(1...5, id: \.self) { i in
+                            Image(systemName: i <= log.rating ? "star.fill" : "star")
+                                .font(.caption2)
+                                .foregroundStyle(i <= log.rating ? Theme.sand : Theme.textTertiary)
+                        }
+                    }
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Logged, rated \(log.rating) of 5")
+                } else {
+                    Text("Tap to log this dive")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Theme.teal)
+                }
+            }
+
+            Spacer(minLength: 0)
+
+            Image(systemName: "chevron.right")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Theme.textTertiary)
+                .accessibilityHidden(true)
+        }
+        .padding(.vertical, Theme.Spacing.md)
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// Depth, time and dive type. Wraps onto separate lines for large text.
+private struct PlanTags: View {
+    let plan: DivePlan
+    var inverted = false
+
+    var body: some View {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: Theme.Spacing.sm) { tags }
+            VStack(alignment: .leading, spacing: Theme.Spacing.sm) { tags }
+        }
+    }
+
+    @ViewBuilder
+    private var tags: some View {
+        DiveTag(icon: "arrow.down.to.line", text: "\(plan.depth) m", color: Theme.ocean, inverted: inverted)
+        DiveTag(icon: "timer", text: "\(plan.duration) min", color: Theme.teal, inverted: inverted)
+        if plan.deepDive { DiveTag(icon: "chevron.down.2", text: "Deep", color: Theme.coral, inverted: inverted) }
+        if plan.nightDive { DiveTag(icon: "moon.stars.fill", text: "Night", color: Theme.sand, inverted: inverted) }
     }
 }
 
 private struct DateBadge: View {
     let date: Date?
-    var inverted = false
+    @ScaledMetric(relativeTo: .title3) private var side: CGFloat = 48
 
     var body: some View {
         VStack(spacing: 0) {
             Text(date.map { $0.formatted(.dateTime.month(.abbreviated)) }?.uppercased() ?? "—")
                 .font(.caption2.weight(.bold))
-                .foregroundStyle(inverted ? .white.opacity(0.8) : Theme.ocean)
+                .foregroundStyle(Theme.ocean)
             Text(date.map { $0.formatted(.dateTime.day()) } ?? "")
                 .font(.system(.title3, design: .rounded).weight(.bold))
-                .foregroundStyle(inverted ? .white : Theme.textPrimary)
+                .foregroundStyle(Theme.textPrimary)
         }
-        .frame(width: 48, height: 48)
+        .frame(width: side, height: side)
         .background(
             RoundedRectangle(cornerRadius: Theme.Radius.sm, style: .continuous)
-                .fill(inverted ? .white.opacity(0.16) : Theme.ocean.opacity(0.1))
+                .fill(Theme.ocean.opacity(0.1))
         )
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(date?.formatted(.dateTime.month(.wide).day()) ?? "No date")
     }
 }
 

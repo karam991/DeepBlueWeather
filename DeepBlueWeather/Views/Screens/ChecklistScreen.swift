@@ -85,26 +85,28 @@ struct ChecklistScreen: View {
                 if let next = nextDive {
                     Button { showNextDive = true } label: {
                         HStack(spacing: Theme.Spacing.md) {
-                            IconBadge(systemName: "sparkles", color: .white, size: 36)
+                            IconBadge(systemName: "sparkles", color: Theme.ocean, size: 36)
+                                .accessibilityHidden(true)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("Smart gear for \(next.location.capitalized)")
                                     .font(.subheadline.weight(.semibold))
-                                    .foregroundStyle(.white)
-                                    .lineLimit(1)
+                                    .foregroundStyle(Theme.textPrimary)
                                 Text("\(next.countdownLabel ?? "Upcoming") · based on the forecast")
                                     .font(.caption)
-                                    .foregroundStyle(.white.opacity(0.75))
+                                    .foregroundStyle(Theme.textSecondary)
                             }
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .font(.footnote.weight(.semibold))
-                                .foregroundStyle(.white.opacity(0.7))
+                                .foregroundStyle(Theme.textTertiary)
+                                .accessibilityHidden(true)
                         }
-                        .padding(Theme.Spacing.lg)
-                        .background(
-                            OceanBackground(waveOpacity: 0.06)
-                                .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.lg, style: .continuous))
+                        .padding(Theme.Spacing.md)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: Theme.Radius.md, style: .continuous)
+                                .strokeBorder(Theme.stroke, lineWidth: 1)
                         )
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PressableStyle())
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
@@ -180,52 +182,86 @@ private struct ProgressHeader: View {
     let total: Int
 
     private var progress: Double { total == 0 ? 0 : Double(done) / Double(total) }
+    private var complete: Bool { total > 0 && done == total }
     @State private var celebrate = 0
+    @ScaledMetric(relativeTo: .title3) private var ringSize: CGFloat = 76
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
-        HStack(spacing: Theme.Spacing.lg) {
-            ZStack {
-                Circle()
-                    .stroke(Theme.ocean.opacity(0.12), lineWidth: 8)
-                Circle()
-                    .trim(from: 0, to: progress)
-                    .stroke(progress == 1 ? Theme.kelp : Theme.ocean, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                Text("\(Int(progress * 100))%")
-                    .font(.system(.subheadline, design: .rounded).weight(.bold))
-                    .foregroundStyle(Theme.textPrimary)
-                    .monospacedDigit()
-                    .contentTransition(.numericText(value: progress))
-                BubbleBurst(trigger: celebrate)
-            }
-            .frame(width: 64, height: 64)
-            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: progress)
+        let layout = typeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: Theme.Spacing.md))
+            : AnyLayout(HStackLayout(spacing: Theme.Spacing.lg))
+
+        layout {
+            gauge
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(progress == 1 ? "Ready to dive" : "Pre-dive check")
-                    .font(.headline)
-                    .foregroundStyle(Theme.textPrimary)
+                Text(complete ? "Ready to dive" : "Pre-dive check")
+                    .font(complete ? .title2.weight(.bold) : .headline)
+                    .foregroundStyle(complete ? Theme.kelp : Theme.textPrimary)
                     .contentTransition(.opacity)
                 Text("\(done) of \(total) items packed")
                     .font(.subheadline)
                     .foregroundStyle(Theme.textSecondary)
                     .contentTransition(.numericText(value: Double(done)))
             }
-            Spacer()
-            if progress == 1 {
-                Image(systemName: "checkmark.seal.fill")
-                    .font(.title)
-                    .foregroundStyle(Theme.kelp)
-                    .symbolEffect(.bounce, value: celebrate)
-                    .transition(.scale.combined(with: .opacity))
-            }
+            Spacer(minLength: 0)
         }
         .card()
-        .animation(.spring(response: 0.4, dampingFraction: 0.8), value: done)
+        .animation(.spring(response: 0.5, dampingFraction: 0.8), value: done)
         .sensoryFeedback(.success, trigger: celebrate)
         .onChange(of: done) { old, new in
             if new == total && total > 0 && old < new { celebrate += 1 }
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(complete ? "Ready to dive" : "Pre-dive check")
+        .accessibilityValue("\(done) of \(total) items packed, \(Int(progress * 100)) percent")
+    }
+
+    /// A porthole that fills with water as items are packed.
+    private var gauge: some View {
+        ZStack {
+            Circle().fill(Theme.ocean.opacity(0.08))
+            WaterFill(level: progress)
+                .fill((complete ? Theme.kelp : Theme.teal).opacity(0.45))
+                .clipShape(Circle())
+            Circle().stroke(complete ? Theme.kelp : Theme.ocean, lineWidth: 3)
+            Text("\(Int(progress * 100))%")
+                .font(.system(.headline, design: .rounded).weight(.bold))
+                .foregroundStyle(Theme.textPrimary)
+                .monospacedDigit()
+                .minimumScaleFactor(0.6)
+                .contentTransition(.numericText(value: progress))
+            BubbleBurst(trigger: celebrate)
+        }
+        .frame(width: min(ringSize, 130), height: min(ringSize, 130))
+    }
+}
+
+/// Water with a gently curved surface. It moves only when the level changes.
+private struct WaterFill: Shape {
+    var level: Double
+
+    var animatableData: Double {
+        get { level }
+        set { level = newValue }
+    }
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        guard level > 0 else { return path }
+        // The ripple flattens out when empty or full, and travels as the level rises.
+        let fill = CGFloat(min(level, 1))
+        let amplitude = rect.height * 0.05 * CGFloat(sin(Double(fill) * Double.pi))
+        let surface = rect.maxY - rect.height * fill
+        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+        for x in stride(from: rect.minX, through: rect.maxX, by: 2) {
+            let angle = Double((x - rect.minX) / rect.width) * 2 * Double.pi + level * 18
+            path.addLine(to: CGPoint(x: x, y: surface + CGFloat(sin(angle)) * amplitude))
+        }
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.closeSubpath()
+        return path
     }
 }
 
@@ -247,6 +283,7 @@ struct ChecklistSectionView: View {
         } header: {
             HStack(spacing: Theme.Spacing.sm) {
                 IconBadge(systemName: section.icon, color: section.color, size: 22)
+                    .accessibilityHidden(true)
                 Text(section.title)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Theme.textPrimary)
@@ -292,7 +329,7 @@ struct ChecklistItemRow: View {
         }
         .buttonStyle(.plain)
         .sensoryFeedback(.selection, trigger: item.isChecked)
-        .accessibilityAddTraits(item.isChecked ? .isSelected : [])
+        .accessibilityValue(item.isChecked ? "Packed" : "Not packed")
     }
 }
 

@@ -107,6 +107,28 @@ class DivePlannerViewModel: ObservableObject {
             }
     }
     
+    // MARK: - Lists and totals
+
+    private var plansByDate: [DivePlan] {
+        divePlans.sorted { ($0.parsedDate ?? .distantFuture) < ($1.parsedDate ?? .distantFuture) }
+    }
+
+    /// Not yet dived, soonest first.
+    var upcomingPlans: [DivePlan] { plansByDate.filter { !$0.isPast && $0.log == nil } }
+
+    /// Past or logged, newest first.
+    var pastPlans: [DivePlan] { plansByDate.filter { $0.isPast || $0.log != nil }.reversed() }
+
+    var totalMinutes: Int { divePlans.reduce(0) { $0 + $1.duration } }
+
+    var maxDepth: Int { divePlans.map(\.depth).max() ?? 0 }
+
+    var totals: [Fact] {
+        [Fact(title: "Dives", value: "\(divePlans.count)", spoken: "\(divePlans.count) dives"),
+         Fact(title: "Bottom time", value: "\(totalMinutes) min", spoken: "Bottom time \(totalMinutes) minutes"),
+         Fact(title: "Max depth", value: "\(maxDepth) m", spoken: "Maximum depth \(maxDepth) metres")]
+    }
+
     // MARK: - Dive log
 
     func saveLog(_ log: DiveLog?, for plan: DivePlan) {
